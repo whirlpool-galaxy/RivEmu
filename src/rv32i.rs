@@ -630,3 +630,9 @@ fn sw(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
         }
     }
 }
+
+fn fence(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {}
+
+fn ecall(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {}
+
+fn ebreak(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {}
