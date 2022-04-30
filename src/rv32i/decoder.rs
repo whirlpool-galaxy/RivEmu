@@ -3,7 +3,16 @@
  */
 
 use super::BaseInstruction;
+use super::RV32IInterface;
 use crate::utility::*;
+
+trait RV32IExecutor {
+    fn get_executor(
+        opcode: u8,
+        func: u16,
+        instruction: BaseInstruction,
+    ) -> fn(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction);
+}
 
 enum Operation {
     Compressed,

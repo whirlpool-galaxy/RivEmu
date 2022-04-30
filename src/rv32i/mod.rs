@@ -7,7 +7,7 @@ mod executor;
 
 use std::panic;
 
-enum BaseInstruction {
+pub enum BaseInstruction {
     RType { rd: u8, rs1: u8, rs2: u8 },
     IType { rd: u8, rs1: u8, imm: i32 },
     SBType { rs1: u8, rs2: u8, imm: i32 },
@@ -25,7 +25,7 @@ trait RV32IBus {
     fn store_word(&mut self, address: u32, data: u32);
 }
 
-trait RV32IInterface: RV32IBus {
+pub trait RV32IInterface: RV32IBus {
     fn read_register(&self, register: u8) -> u32;
     fn write_register(&mut self, register: u8, data: u32);
 

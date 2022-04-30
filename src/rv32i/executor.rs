@@ -4,7 +4,9 @@
 
 use super::*;
 
-fn addi(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
+pub fn unknown(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {}
+
+pub fn addi(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         BaseInstruction::IType { rd, rs1, imm } => {
             let operand = cpu.read_register(rs1) as i32;
@@ -16,7 +18,7 @@ fn addi(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
     }
 }
 
-fn slti(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
+pub fn slti(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         BaseInstruction::IType { rd, rs1, imm } => {
             let operand = cpu.read_register(rs1) as i32;
@@ -32,7 +34,7 @@ fn slti(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
     }
 }
 
-fn sltiu(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
+pub fn sltiu(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         BaseInstruction::IType { rd, rs1, imm } => {
             let imm = imm as u32;
@@ -49,7 +51,7 @@ fn sltiu(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
     }
 }
 
-fn andi(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
+pub fn andi(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         BaseInstruction::IType { rd, rs1, imm } => {
             let imm = imm as u32;
@@ -62,7 +64,7 @@ fn andi(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
     }
 }
 
-fn ori(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
+pub fn ori(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         BaseInstruction::IType { rd, rs1, imm } => {
             let imm = imm as u32;
@@ -75,7 +77,7 @@ fn ori(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
     }
 }
 
-fn xori(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
+pub fn xori(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         BaseInstruction::IType { rd, rs1, imm } => {
             let imm = imm as u32;
@@ -91,7 +93,7 @@ fn xori(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
 /**
  * WARNING: Expect RType instead of in RISC-V Spec specified IType!
  */
-fn slli(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
+pub fn slli(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         // Is actually IType
         BaseInstruction::RType { rd, rs1, rs2 } => {
@@ -108,7 +110,7 @@ fn slli(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
 /**
  * WARNING: Expect RType instead of in RISC-V Spec specified IType!
  */
-fn srli(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
+pub fn srli(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         // Is actually IType
         BaseInstruction::RType { rd, rs1, rs2 } => {
@@ -125,7 +127,7 @@ fn srli(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
 /**
  * WARNING: Expect RType instead of in RISC-V Spec specified IType!
  */
-fn srai(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
+pub fn srai(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         // Is actually IType
         BaseInstruction::RType { rd, rs1, rs2 } => {
@@ -139,7 +141,7 @@ fn srai(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
     }
 }
 
-fn lui(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
+pub fn lui(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         BaseInstruction::UJType { rd, imm } => {
             cpu.write_register(rd, imm as u32);
@@ -150,7 +152,7 @@ fn lui(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
     }
 }
 
-fn auipc(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
+pub fn auipc(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         BaseInstruction::UJType { rd, imm } => {
             let pc = cpu.read_pc();
@@ -162,7 +164,7 @@ fn auipc(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
     }
 }
 
-fn add(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
+pub fn add(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         BaseInstruction::RType { rd, rs1, rs2 } => {
             let lhs = cpu.read_register(rs1);
@@ -176,7 +178,7 @@ fn add(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
     }
 }
 
-fn slt(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
+pub fn slt(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         BaseInstruction::RType { rd, rs1, rs2 } => {
             let lhs = cpu.read_register(rs1) as i32;
@@ -193,7 +195,7 @@ fn slt(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
     }
 }
 
-fn sltu(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
+pub fn sltu(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         BaseInstruction::RType { rd, rs1, rs2 } => {
             let lhs = cpu.read_register(rs1);
@@ -210,7 +212,7 @@ fn sltu(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
     }
 }
 
-fn and(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
+pub fn and(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         BaseInstruction::RType { rd, rs1, rs2 } => {
             let lhs = cpu.read_register(rs1);
@@ -224,7 +226,7 @@ fn and(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
     }
 }
 
-fn or(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
+pub fn or(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         BaseInstruction::RType { rd, rs1, rs2 } => {
             let lhs = cpu.read_register(rs1);
@@ -238,7 +240,7 @@ fn or(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
     }
 }
 
-fn xor(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
+pub fn xor(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         BaseInstruction::RType { rd, rs1, rs2 } => {
             let lhs = cpu.read_register(rs1);
@@ -252,7 +254,7 @@ fn xor(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
     }
 }
 
-fn sll(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
+pub fn sll(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         BaseInstruction::RType { rd, rs1, rs2 } => {
             let lhs = cpu.read_register(rs1);
@@ -266,7 +268,7 @@ fn sll(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
     }
 }
 
-fn srl(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
+pub fn srl(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         BaseInstruction::RType { rd, rs1, rs2 } => {
             let lhs = cpu.read_register(rs1);
@@ -280,7 +282,7 @@ fn srl(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
     }
 }
 
-fn sub(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
+pub fn sub(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         BaseInstruction::RType { rd, rs1, rs2 } => {
             let lhs = cpu.read_register(rs1);
@@ -294,7 +296,7 @@ fn sub(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
     }
 }
 
-fn sra(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
+pub fn sra(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         BaseInstruction::RType { rd, rs1, rs2 } => {
             let lhs = cpu.read_register(rs1) as i32;
@@ -308,7 +310,7 @@ fn sra(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
     }
 }
 
-fn jal(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
+pub fn jal(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         BaseInstruction::UJType { rd, imm } => {
             let pc = cpu.read_pc();
@@ -321,7 +323,7 @@ fn jal(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
     }
 }
 
-fn jalr(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
+pub fn jalr(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         BaseInstruction::IType { rd, rs1, imm } => {
             let pc = cpu.read_pc();
@@ -335,7 +337,7 @@ fn jalr(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
     }
 }
 
-fn beq(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
+pub fn beq(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         BaseInstruction::SBType { rs1, rs2, imm } => {
             let lhs = cpu.read_register(rs1);
@@ -351,7 +353,7 @@ fn beq(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
     }
 }
 
-fn bne(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
+pub fn bne(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         BaseInstruction::SBType { rs1, rs2, imm } => {
             let lhs = cpu.read_register(rs1);
@@ -367,7 +369,7 @@ fn bne(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
     }
 }
 
-fn blt(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
+pub fn blt(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         BaseInstruction::SBType { rs1, rs2, imm } => {
             let lhs = cpu.read_register(rs1) as i32;
@@ -383,7 +385,7 @@ fn blt(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
     }
 }
 
-fn bltu(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
+pub fn bltu(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         BaseInstruction::SBType { rs1, rs2, imm } => {
             let lhs = cpu.read_register(rs1);
@@ -399,7 +401,7 @@ fn bltu(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
     }
 }
 
-fn bge(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
+pub fn bge(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         BaseInstruction::SBType { rs1, rs2, imm } => {
             let lhs = cpu.read_register(rs1) as i32;
@@ -415,7 +417,7 @@ fn bge(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
     }
 }
 
-fn bgeu(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
+pub fn bgeu(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         BaseInstruction::SBType { rs1, rs2, imm } => {
             let lhs = cpu.read_register(rs1);
@@ -431,7 +433,7 @@ fn bgeu(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
     }
 }
 
-fn lb(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
+pub fn lb(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         BaseInstruction::IType { rd, rs1, imm } => {
             let base = cpu.read_register(rs1);
@@ -446,7 +448,7 @@ fn lb(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
     }
 }
 
-fn lh(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
+pub fn lh(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         BaseInstruction::IType { rd, rs1, imm } => {
             let base = cpu.read_register(rs1);
@@ -461,7 +463,7 @@ fn lh(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
     }
 }
 
-fn lw(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
+pub fn lw(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         BaseInstruction::IType { rd, rs1, imm } => {
             let base = cpu.read_register(rs1);
@@ -476,7 +478,7 @@ fn lw(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
     }
 }
 
-fn lbu(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
+pub fn lbu(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         BaseInstruction::IType { rd, rs1, imm } => {
             let base = cpu.read_register(rs1);
@@ -491,7 +493,7 @@ fn lbu(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
     }
 }
 
-fn lhu(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
+pub fn lhu(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         BaseInstruction::IType { rd, rs1, imm } => {
             let base = cpu.read_register(rs1);
@@ -506,7 +508,7 @@ fn lhu(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
     }
 }
 
-fn sb(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
+pub fn sb(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         BaseInstruction::SBType { rs1, rs2, imm } => {
             let base = cpu.read_register(rs1);
@@ -521,7 +523,7 @@ fn sb(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
     }
 }
 
-fn sh(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
+pub fn sh(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         BaseInstruction::SBType { rs1, rs2, imm } => {
             let base = cpu.read_register(rs1);
@@ -536,7 +538,7 @@ fn sh(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
     }
 }
 
-fn sw(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
+pub fn sw(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         BaseInstruction::SBType { rs1, rs2, imm } => {
             let base = cpu.read_register(rs1);
@@ -551,8 +553,8 @@ fn sw(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
     }
 }
 
-fn fence(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {}
+pub fn fence(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {}
 
-fn ecall(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {}
+pub fn ecall(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {}
 
-fn ebreak(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {}
+pub fn ebreak(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {}
