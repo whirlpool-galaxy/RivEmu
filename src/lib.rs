@@ -1,3 +1,5 @@
+mod rv32i;
+
 #[cfg(test)]
 mod tests {
     #[test]
