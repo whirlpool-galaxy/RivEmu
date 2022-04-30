@@ -11,7 +11,15 @@ enum BaseInstruction {
     UJType { rd: u8, imm: i32 },
 }
 
-trait RV32IBus {}
+trait RV32IBus {
+    fn load_byte(&mut self, address: u32) -> u8;
+    fn load_half_word(&mut self, address: u32) -> u16;
+    fn load_word(&mut self, address: u32) -> u32;
+
+    fn store_byte(&mut self, address: u32, data: u8);
+    fn store_half_word(&mut self, address: u32, data: u16);
+    fn store_word(&mut self, address: u32, data: u32);
+}
 
 trait RV32IInterface: RV32IBus {
     fn read_register(&self, register: u8) -> u32;
@@ -26,7 +34,21 @@ struct RV32ICPU {
     pc: u32,
 }
 
-impl RV32IBus for RV32ICPU {}
+impl RV32IBus for RV32ICPU {
+    fn load_byte(&mut self, address: u32) -> u8 {
+        0
+    }
+    fn load_half_word(&mut self, address: u32) -> u16 {
+        0
+    }
+    fn load_word(&mut self, address: u32) -> u32 {
+        0
+    }
+
+    fn store_byte(&mut self, address: u32, data: u8) {}
+    fn store_half_word(&mut self, address: u32, data: u16) {}
+    fn store_word(&mut self, address: u32, data: u32) {}
+}
 
 impl RV32IInterface for RV32ICPU {
     fn read_register(&self, register: u8) -> u32 {
@@ -440,6 +462,7 @@ fn blt(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
         }
     }
 }
+
 fn bltu(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         BaseInstruction::SBType { rs1, rs2, imm } => {
@@ -455,6 +478,7 @@ fn bltu(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
         }
     }
 }
+
 fn bge(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         BaseInstruction::SBType { rs1, rs2, imm } => {
@@ -470,6 +494,7 @@ fn bge(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
         }
     }
 }
+
 fn bgeu(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         BaseInstruction::SBType { rs1, rs2, imm } => {
@@ -479,6 +504,126 @@ fn bgeu(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
                 let pc = cpu.read_pc();
                 cpu.write_pc(pc.wrapping_add(imm as u32));
             }
+        }
+        _ => {
+            panic!("Invalid instruction type!")
+        }
+    }
+}
+
+fn lb(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
+    match instruction {
+        BaseInstruction::IType { rd, rs1, imm } => {
+            let base = cpu.read_register(rs1);
+            let address = base.wrapping_add(imm as u32);
+            let data = ((cpu.load_byte(address) as i8) as i32) as u32;
+
+            cpu.write_register(rd, data)
+        }
+        _ => {
+            panic!("Invalid instruction type!")
+        }
+    }
+}
+
+fn lh(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
+    match instruction {
+        BaseInstruction::IType { rd, rs1, imm } => {
+            let base = cpu.read_register(rs1);
+            let address = base.wrapping_add(imm as u32);
+            let data = ((cpu.load_half_word(address) as i16) as i32) as u32;
+
+            cpu.write_register(rd, data)
+        }
+        _ => {
+            panic!("Invalid instruction type!")
+        }
+    }
+}
+
+fn lw(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
+    match instruction {
+        BaseInstruction::IType { rd, rs1, imm } => {
+            let base = cpu.read_register(rs1);
+            let address = base.wrapping_add(imm as u32);
+            let data = cpu.load_word(address);
+
+            cpu.write_register(rd, data)
+        }
+        _ => {
+            panic!("Invalid instruction type!")
+        }
+    }
+}
+
+fn lbu(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
+    match instruction {
+        BaseInstruction::IType { rd, rs1, imm } => {
+            let base = cpu.read_register(rs1);
+            let address = base.wrapping_add(imm as u32);
+            let data = cpu.load_byte(address) as u32;
+
+            cpu.write_register(rd, data)
+        }
+        _ => {
+            panic!("Invalid instruction type!")
+        }
+    }
+}
+
+fn lhu(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
+    match instruction {
+        BaseInstruction::IType { rd, rs1, imm } => {
+            let base = cpu.read_register(rs1);
+            let address = base.wrapping_add(imm as u32);
+            let data = cpu.load_half_word(address) as u32;
+
+            cpu.write_register(rd, data)
+        }
+        _ => {
+            panic!("Invalid instruction type!")
+        }
+    }
+}
+
+fn sb(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
+    match instruction {
+        BaseInstruction::SBType { rs1, rs2, imm } => {
+            let base = cpu.read_register(rs1);
+            let address = base.wrapping_add(imm as u32);
+            let data = cpu.read_register(rs2);
+
+            cpu.store_byte(address, data as u8);
+        }
+        _ => {
+            panic!("Invalid instruction type!")
+        }
+    }
+}
+
+fn sh(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
+    match instruction {
+        BaseInstruction::SBType { rs1, rs2, imm } => {
+            let base = cpu.read_register(rs1);
+            let address = base.wrapping_add(imm as u32);
+            let data = cpu.read_register(rs2);
+
+            cpu.store_half_word(address, data as u16);
+        }
+        _ => {
+            panic!("Invalid instruction type!")
+        }
+    }
+}
+
+fn sw(cpu: &mut impl RV32IInterface, instruction: BaseInstruction) {
+    match instruction {
+        BaseInstruction::SBType { rs1, rs2, imm } => {
+            let base = cpu.read_register(rs1);
+            let address = base.wrapping_add(imm as u32);
+            let data = cpu.read_register(rs2);
+
+            cpu.store_word(address, data);
         }
         _ => {
             panic!("Invalid instruction type!")
