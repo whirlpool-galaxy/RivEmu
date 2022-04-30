@@ -1,5 +1,13 @@
-pub fn opcode(inst: u32) -> u32 {
-    select_bits_unsigned(inst, 0, 7)
+pub fn opcode(inst: u32) -> u8 {
+    select_bits_unsigned(inst, 0, 7) as u8
+}
+
+pub fn opcode_div(inst: u32) -> (u32, u32, u32) {
+    (
+        select_bits_unsigned(inst, 5, 2),
+        select_bits_unsigned(inst, 2, 3),
+        select_bits_unsigned(inst, 0, 2),
+    )
 }
 
 pub fn rd(inst: u32) -> u8 {

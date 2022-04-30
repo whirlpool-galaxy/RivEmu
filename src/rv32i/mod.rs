@@ -15,7 +15,7 @@ pub enum BaseInstruction {
     Unknown { instruction: u32 },
 }
 
-trait RV32IBus {
+pub trait RV32IBus {
     fn load_byte(&mut self, address: u32) -> u8;
     fn load_half_word(&mut self, address: u32) -> u16;
     fn load_word(&mut self, address: u32) -> u32;

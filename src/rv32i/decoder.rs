@@ -6,6 +6,52 @@ use super::BaseInstruction;
 use super::RV32IInterface;
 use crate::utility::*;
 
+/**
+ * Table containing opcode types indexed by bit [`[6:5]`, `[4:2]`].
+ */
+const OPCODE_DECODING_TABLE: [[Operation; 8]; 4] = [
+    [
+        Operation::Load,
+        Operation::LoadFp,
+        Operation::Custom0,
+        Operation::MiscMem,
+        Operation::OpImm,
+        Operation::Auipc,
+        Operation::OpImm32,
+        Operation::Bit48_0,
+    ],
+    [
+        Operation::Store,
+        Operation::StoreFp,
+        Operation::Custom1,
+        Operation::Amo,
+        Operation::Op,
+        Operation::Lui,
+        Operation::Op32,
+        Operation::Bit64,
+    ],
+    [
+        Operation::Madd,
+        Operation::Msub,
+        Operation::Nmsub,
+        Operation::Nmadd,
+        Operation::OpFp,
+        Operation::Reserved0,
+        Operation::Custom2,
+        Operation::Bit48_1,
+    ],
+    [
+        Operation::Branch,
+        Operation::Jalr,
+        Operation::Reserved1,
+        Operation::Jal,
+        Operation::System,
+        Operation::Reserved2,
+        Operation::Custom3,
+        Operation::Bit80,
+    ],
+];
+
 trait RV32IExecutor {
     fn get_executor(
         opcode: u8,
@@ -167,48 +213,13 @@ impl Operation {
     }
 }
 
-/**
- * Table containing opcode types indexed by bit [`[6:5]`, `[4:2]`].
- */
-const OPCODE_DECODING_TABLE: [[Operation; 8]; 4] = [
-    [
-        Operation::Load,
-        Operation::LoadFp,
-        Operation::Custom0,
-        Operation::MiscMem,
-        Operation::OpImm,
-        Operation::Auipc,
-        Operation::OpImm32,
-        Operation::Bit48_0,
-    ],
-    [
-        Operation::Store,
-        Operation::StoreFp,
-        Operation::Custom1,
-        Operation::Amo,
-        Operation::Op,
-        Operation::Lui,
-        Operation::Op32,
-        Operation::Bit64,
-    ],
-    [
-        Operation::Madd,
-        Operation::Msub,
-        Operation::Nmsub,
-        Operation::Nmadd,
-        Operation::OpFp,
-        Operation::Reserved0,
-        Operation::Custom2,
-        Operation::Bit48_1,
-    ],
-    [
-        Operation::Branch,
-        Operation::Jalr,
-        Operation::Reserved1,
-        Operation::Jal,
-        Operation::System,
-        Operation::Reserved2,
-        Operation::Custom3,
-        Operation::Bit80,
-    ],
-];
+fn decode(instruction: u32) -> (u8, Option<u16>, BaseInstruction) {
+    let (op_hi, op_low, op_comp) = opcode_div(instruction);
+    if op_comp != 0x11 {
+        let operation = &OPCODE_DECODING_TABLE[op_hi as usize][op_low as usize];
+        let (func, instr) = operation.decode(instruction);
+        (opcode(instruction), func, instr)
+    } else {
+        (0, Option::None, BaseInstruction::Unknown { instruction })
+    }
+}
