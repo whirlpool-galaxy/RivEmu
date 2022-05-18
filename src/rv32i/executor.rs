@@ -91,7 +91,7 @@ pub fn xori(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
 }
 
 /**
- * WARNING: Expect RType instead of in RISC-V Spec specified IType!
+ * WARNING: Expects RType instead of in RISC-V Spec specified IType!
  */
 pub fn slli(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
@@ -108,7 +108,7 @@ pub fn slli(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
 }
 
 /**
- * WARNING: Expect RType instead of in RISC-V Spec specified IType!
+ * WARNING: Expects RType instead of in RISC-V Spec specified IType!
  */
 pub fn srli(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
@@ -125,7 +125,7 @@ pub fn srli(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
 }
 
 /**
- * WARNING: Expect RType instead of in RISC-V Spec specified IType!
+ * WARNING: Expects RType instead of in RISC-V Spec specified IType!
  */
 pub fn srai(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
@@ -558,3 +558,133 @@ pub fn fence(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {}
 pub fn ecall(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {}
 
 pub fn ebreak(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    struct Dummy {
+        pub register: [u32; 32],
+        pub pc: u32,
+        pub bus: DummyBusStatus,
+    }
+
+    struct DummyBusStatus {
+        pub last_write: bool,
+        pub last_byte: bool,
+        pub last_half_word: bool,
+        pub last_word: bool,
+        pub last_addr: u32,
+        pub last_data: u32,
+    }
+
+    impl DummyBusStatus {
+        pub fn new() -> DummyBusStatus {
+            DummyBusStatus {
+                last_write: false,
+                last_byte: false,
+                last_half_word: false,
+                last_word: false,
+                last_addr: 0,
+                last_data: 0,
+            }
+        }
+
+        pub fn reset(&mut self) {
+            self.last_write = false;
+            self.last_byte = false;
+            self.last_half_word = false;
+            self.last_word = false;
+            self.last_addr = 0;
+            self.last_data = 0;
+        }
+    }
+
+    impl Dummy {
+        pub fn new() -> Dummy {
+            Dummy {
+                register: [0; 32],
+                pc: 0,
+                bus: DummyBusStatus::new(),
+            }
+        }
+    }
+
+    impl RV32IBus for Dummy {
+        fn load_byte(&mut self, address: u32) -> u8 {
+            self.bus.last_addr = address;
+            self.bus.last_byte = true;
+            self.bus.last_data as u8
+        }
+
+        fn load_half_word(&mut self, address: u32) -> u16 {
+            self.bus.last_addr = address;
+            self.bus.last_half_word = true;
+            self.bus.last_data as u16
+        }
+
+        fn load_word(&mut self, address: u32) -> u32 {
+            self.bus.last_addr = address;
+            self.bus.last_word = true;
+            self.bus.last_data
+        }
+
+        fn store_byte(&mut self, address: u32, data: u8) {
+            self.bus.last_addr = address;
+            self.bus.last_data = data as u32;
+            self.bus.last_byte = true;
+            self.bus.last_write = true;
+        }
+
+        fn store_half_word(&mut self, address: u32, data: u16) {
+            self.bus.last_addr = address;
+            self.bus.last_data = data as u32;
+            self.bus.last_half_word = true;
+            self.bus.last_write = true;
+        }
+
+        fn store_word(&mut self, address: u32, data: u32) {
+            self.bus.last_addr = address;
+            self.bus.last_data = data as u32;
+            self.bus.last_word = true;
+            self.bus.last_write = true;
+        }
+    }
+
+    impl RV32IInterface for Dummy {
+        fn read_register(&self, register: u8) -> u32 {
+            if register > 31 {
+                panic!(
+                    "Unknown register address: {:#010b}! Maybe an instruction decoding error. Only bits [0, 4] are valid.",
+                    register
+                );
+            }
+            if register == 0 {
+                0
+            } else {
+                self.register[register as usize]
+            }
+        }
+
+        fn write_register(&mut self, register: u8, data: u32) {
+            if register > 31 {
+                panic!(
+                    "Unknown register address: {:#010b}! Maybe an instruction decoding error. Only bits [0, 4] are valid.",
+                    register
+                );
+            }
+            self.register[register as usize] = data;
+        }
+
+        fn read_pc(&self) -> u32 {
+            self.pc
+        }
+
+        fn write_pc(&mut self, pc: u32) {
+            self.pc = pc;
+        }
+    }
+
+    #[test]
+    fn unknown() {}
+}
