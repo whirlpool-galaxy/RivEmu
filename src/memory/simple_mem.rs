@@ -57,7 +57,7 @@ impl crate::rv32i::RV32IBus for Basic32Mem {
     fn load_half_word(&mut self, address: u32) -> u16 {
         let (addr, off) = word_aligned_address(address);
         if off % 2 != 0 {
-            panic!("misaligned memory access")
+            panic!("misaligned memory access at: 0x{:08x}", address);
         }
         let data = match self.mem.get(&addr) {
             Some(d) => *d,
@@ -75,7 +75,7 @@ impl crate::rv32i::RV32IBus for Basic32Mem {
     fn load_word(&mut self, address: u32) -> u32 {
         let (addr, off) = word_aligned_address(address);
         if off != 0 {
-            panic!("misaligned memory access")
+            panic!("misaligned memory access at: 0x{:08x}", address);
         }
         match self.mem.get(&addr) {
             Some(d) => *d,
@@ -108,7 +108,7 @@ impl crate::rv32i::RV32IBus for Basic32Mem {
     fn store_half_word(&mut self, address: u32, data: u16) {
         let (addr, off) = word_aligned_address(address);
         if off % 2 != 0 {
-            panic!("misaligned memory access")
+            panic!("misaligned memory access at: 0x{:08x}", address);
         }
         let mut temp = match self.mem.get(&addr) {
             Some(d) => *d,
@@ -127,7 +127,7 @@ impl crate::rv32i::RV32IBus for Basic32Mem {
     fn store_word(&mut self, address: u32, data: u32) {
         let (addr, off) = word_aligned_address(address);
         if off != 0 {
-            panic!("misaligned memory access")
+            panic!("misaligned memory access at: 0x{:08x}", address);
         }
         self.mem.insert(addr, data);
     }

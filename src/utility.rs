@@ -60,8 +60,8 @@ pub fn imm_u(inst: u32) -> i32 {
 pub fn imm_j(inst: u32) -> i32 {
     select_bits_signed(inst, 31, 1) << 20
         | (select_bits_unsigned(inst, 12, 8) << 12) as i32
-        | (select_bits_unsigned(inst, 19, 1) << 11) as i32
-        | (select_bits_unsigned(inst, 20, 10) << 1) as i32
+        | (select_bits_unsigned(inst, 20, 1) << 11) as i32
+        | (select_bits_unsigned(inst, 21, 10) << 1) as i32
 }
 
 /// Select bits from bit `low_bit` to `low_bit + length`.
@@ -86,4 +86,14 @@ pub fn select_bits_unsigned(instruction: u32, low_bit: u32, length: u32) -> u32 
 /// Returns the length of a bit field.
 pub fn bit_length(low: u32, high: u32) -> u32 {
     high - low + 1
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_imm_j() {
+        assert_eq!(imm_j(0xFF5FF06F), 0xFFFFFFF4u32 as i32);
+    }
 }

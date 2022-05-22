@@ -14,7 +14,7 @@ fn main() {
     cpu.connect_to_bus(Option::Some(bus.clone() as Rc<RefCell<dyn RV32IBus>>));
     bus.borrow_mut().load_memory_image("test.bin".to_string());
 
-    for n in 1..10 {
+    for n in 1..1000 {
         cpu.execute_next();
     }
 }

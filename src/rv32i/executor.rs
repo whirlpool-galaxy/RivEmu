@@ -321,7 +321,6 @@ pub fn jal(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         BaseInstruction::UJType { rd, imm } => {
             let pc = cpu.read_pc().wrapping_sub(4);
-            cpu.write_register(rd, pc.wrapping_add(4));
             cpu.write_pc(pc.wrapping_add(imm as u32));
         }
         _ => {
@@ -334,7 +333,6 @@ pub fn jalr(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         BaseInstruction::IType { rd, rs1, imm } => {
             let pc = cpu.read_pc().wrapping_sub(4);
-            cpu.write_register(rd, pc.wrapping_add(4));
             let new_pc = cpu.read_register(rs1);
             cpu.write_pc(new_pc.wrapping_add(imm as u32) & 0xFFFFFFFE);
         }
