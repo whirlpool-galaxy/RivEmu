@@ -351,7 +351,7 @@ pub fn decode(
     fn(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction),
 ) {
     let (op_hi, op_low, op_comp) = opcode_div(instruction);
-    if op_comp != 0x11 {
+    if op_comp == 0x11 {
         let operation = &OPCODE_DECODING_TABLE[op_hi as usize][op_low as usize];
         let (func, instr) = operation.decode(instruction);
         (instr, operation.get_executor(func))
