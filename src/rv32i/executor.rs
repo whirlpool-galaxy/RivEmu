@@ -687,4 +687,53 @@ mod tests {
 
     #[test]
     fn unknown() {}
+
+    #[test]
+    fn test_addi() {
+        let mut dummy = Dummy::new();
+
+        dummy.register[0x01] = 0xFFFFFFFF; // -1
+
+        let a = BaseInstruction::IType {
+            rd: 0x02,
+            rs1: 0x01,
+            imm: -0x800, // -2048
+        };
+
+        addi(&mut dummy, a);
+
+        assert_eq!(dummy.register[0x02], 0xFFFFF7FF); // -2049
+
+        let b = BaseInstruction::IType {
+            rd: 0x02,
+            rs1: 0x01,
+            imm: 0x001,
+        };
+
+        addi(&mut dummy, b);
+
+        assert_eq!(dummy.register[0x02], 0x0);
+
+        let c = BaseInstruction::IType {
+            rd: 0x02,
+            rs1: 0x01,
+            imm: -0x1,
+        };
+
+        addi(&mut dummy, c);
+
+        assert_eq!(dummy.register[0x02], 0xFFFFFFFE);
+
+        dummy.register[0x1F] = 10;
+
+        let d = BaseInstruction::IType {
+            rd: 0x01,
+            rs1: 0x1F,
+            imm: -3,
+        };
+
+        addi(&mut dummy, d);
+
+        assert_eq!(dummy.register[0x01], 7);
+    }
 }
