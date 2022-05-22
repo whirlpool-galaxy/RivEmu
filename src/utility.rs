@@ -1,3 +1,7 @@
+/*
+ * Copyright (C) 2022 Jonathan Schild - All Rights Reserved
+ */
+
 pub fn opcode(inst: u32) -> u8 {
     select_bits_unsigned(inst, 0, 7) as u8
 }

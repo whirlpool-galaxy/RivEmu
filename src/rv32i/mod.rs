@@ -70,27 +70,21 @@ impl RV32ICPU {
 impl RV32IBus for RV32ICPU {
     fn load_byte(&mut self, address: u32) -> u8 {
         match &self.bus {
-            Some(b) => {
-                b.borrow_mut().load_byte(address)
-            }
+            Some(b) => b.borrow_mut().load_byte(address),
             None => 0,
         }
     }
 
     fn load_half_word(&mut self, address: u32) -> u16 {
         match &self.bus {
-            Some(b) => {
-                b.borrow_mut().load_half_word(address)
-            }
+            Some(b) => b.borrow_mut().load_half_word(address),
             None => 0,
         }
     }
-    
+
     fn load_word(&mut self, address: u32) -> u32 {
         match &self.bus {
-            Some(b) => {
-                b.borrow_mut().load_word(address)
-            }
+            Some(b) => b.borrow_mut().load_word(address),
             None => 0,
         }
     }
@@ -100,7 +94,7 @@ impl RV32IBus for RV32ICPU {
             Some(b) => {
                 b.borrow_mut().store_byte(address, data);
             }
-            _ => {},
+            _ => {}
         };
     }
 
@@ -109,7 +103,7 @@ impl RV32IBus for RV32ICPU {
             Some(b) => {
                 b.borrow_mut().store_half_word(address, data);
             }
-            _ => {},
+            _ => {}
         };
     }
 
@@ -118,7 +112,7 @@ impl RV32IBus for RV32ICPU {
             Some(b) => {
                 b.borrow_mut().store_word(address, data);
             }
-            _ => {},
+            _ => {}
         };
     }
 }

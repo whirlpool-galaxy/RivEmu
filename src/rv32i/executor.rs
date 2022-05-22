@@ -6,9 +6,11 @@ use super::*;
 
 pub fn unknown(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
-        BaseInstruction::Unknown {instruction} => {panic!("Unknown instruction: 0x{:08x}", instruction)}
-        _ => panic!("Invalid instruction type!")
-    };    
+        BaseInstruction::Unknown { instruction } => {
+            panic!("Unknown instruction: 0x{:08x}", instruction)
+        }
+        _ => panic!("Invalid instruction type!"),
+    };
 }
 
 pub fn addi(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {

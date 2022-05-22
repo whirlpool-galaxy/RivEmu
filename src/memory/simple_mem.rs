@@ -1,9 +1,12 @@
-use crate::rv32i::RV32IBus;
+/*
+ * Copyright (C) 2022 Jonathan Schild - All Rights Reserved
+ */
 
 use std::collections::HashMap;
 use std::fs::File;
 use std::io::Read;
 
+use crate::rv32i::RV32IBus;
 
 pub struct Basic32Mem {
     mem: HashMap<u32, u32>,
@@ -16,14 +19,14 @@ impl Basic32Mem {
         }
     }
 
-    pub fn load_memory_image(&mut self, memory_image_path: String){
+    pub fn load_memory_image(&mut self, memory_image_path: String) {
         let file = match File::open(memory_image_path) {
             Ok(f) => f,
             Err(_) => panic!("FileIOError"),
         };
-        
+
         let reader = file.bytes();
-        
+
         let mut counter = 0u32;
 
         for byte in reader {
@@ -82,7 +85,7 @@ impl crate::rv32i::RV32IBus for Basic32Mem {
 
     fn store_byte(&mut self, address: u32, data: u8) {
         let (addr, off) = word_aligned_address(address);
-        let mut temp = match self.mem.get(&addr){
+        let mut temp = match self.mem.get(&addr) {
             Some(d) => *d,
             _ => 0,
         };
@@ -102,12 +105,12 @@ impl crate::rv32i::RV32IBus for Basic32Mem {
         self.mem.insert(addr, temp);
     }
 
-    fn store_half_word(&mut self, address: u32, data: u16){
+    fn store_half_word(&mut self, address: u32, data: u16) {
         let (addr, off) = word_aligned_address(address);
         if off % 2 != 0 {
             panic!("misaligned memory access")
         }
-        let mut temp = match self.mem.get(&addr){
+        let mut temp = match self.mem.get(&addr) {
             Some(d) => *d,
             _ => 0,
         };
@@ -117,11 +120,11 @@ impl crate::rv32i::RV32IBus for Basic32Mem {
         } else if off == 2 {
             temp &= 0x0000FFFF;
             temp |= (data as u32) << 16;
-        } 
+        }
         self.mem.insert(addr, temp);
     }
 
-    fn store_word(&mut self, address: u32, data: u32){
+    fn store_word(&mut self, address: u32, data: u32) {
         let (addr, off) = word_aligned_address(address);
         if off != 0 {
             panic!("misaligned memory access")
@@ -130,6 +133,6 @@ impl crate::rv32i::RV32IBus for Basic32Mem {
     }
 }
 
-fn word_aligned_address(address: u32) -> (u32, u32){
+fn word_aligned_address(address: u32) -> (u32, u32) {
     (address >> 2, address % 4)
 }
