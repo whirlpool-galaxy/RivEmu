@@ -344,13 +344,18 @@ impl Operation {
     }
 }
 
-fn decode(instruction: u32) -> (u8, Option<u16>, BaseInstruction) {
+pub fn decode(
+    instruction: u32,
+) -> (
+    BaseInstruction,
+    fn(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction),
+) {
     let (op_hi, op_low, op_comp) = opcode_div(instruction);
     if op_comp != 0x11 {
         let operation = &OPCODE_DECODING_TABLE[op_hi as usize][op_low as usize];
         let (func, instr) = operation.decode(instruction);
-        (opcode(instruction), func, instr)
+        (instr, operation.get_executor(func))
     } else {
-        (0, Option::None, BaseInstruction::Unknown { instruction })
+        (BaseInstruction::Unknown { instruction }, unknown)
     }
 }

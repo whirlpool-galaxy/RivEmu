@@ -4,7 +4,12 @@
 
 use super::*;
 
-pub fn unknown(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {}
+pub fn unknown(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
+    match instruction {
+        BaseInstruction::Unknown {instruction} => {panic!("Unknown instruction: 0x{:08x}", instruction)}
+        _ => panic!("Invalid instruction type!")
+    };    
+}
 
 pub fn addi(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
@@ -155,7 +160,7 @@ pub fn lui(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
 pub fn auipc(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         BaseInstruction::UJType { rd, imm } => {
-            let pc = cpu.read_pc();
+            let pc = cpu.read_pc().wrapping_sub(4);
             cpu.write_register(rd, pc.wrapping_add(imm as u32));
         }
         _ => {
@@ -313,7 +318,7 @@ pub fn sra(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
 pub fn jal(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         BaseInstruction::UJType { rd, imm } => {
-            let pc = cpu.read_pc();
+            let pc = cpu.read_pc().wrapping_sub(4);
             cpu.write_register(rd, pc.wrapping_add(4));
             cpu.write_pc(pc.wrapping_add(imm as u32));
         }
@@ -326,7 +331,7 @@ pub fn jal(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
 pub fn jalr(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         BaseInstruction::IType { rd, rs1, imm } => {
-            let pc = cpu.read_pc();
+            let pc = cpu.read_pc().wrapping_sub(4);
             cpu.write_register(rd, pc.wrapping_add(4));
             let new_pc = cpu.read_register(rs1);
             cpu.write_pc(new_pc.wrapping_add(imm as u32) & 0xFFFFFFFE);
@@ -343,7 +348,7 @@ pub fn beq(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
             let lhs = cpu.read_register(rs1);
             let rhs = cpu.read_register(rs2);
             if lhs == rhs {
-                let pc = cpu.read_pc();
+                let pc = cpu.read_pc().wrapping_sub(4);
                 cpu.write_pc(pc.wrapping_add(imm as u32));
             }
         }
@@ -359,7 +364,7 @@ pub fn bne(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
             let lhs = cpu.read_register(rs1);
             let rhs = cpu.read_register(rs2);
             if lhs != rhs {
-                let pc = cpu.read_pc();
+                let pc = cpu.read_pc().wrapping_sub(4);
                 cpu.write_pc(pc.wrapping_add(imm as u32));
             }
         }
@@ -375,7 +380,7 @@ pub fn blt(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
             let lhs = cpu.read_register(rs1) as i32;
             let rhs = cpu.read_register(rs2) as i32;
             if lhs < rhs {
-                let pc = cpu.read_pc();
+                let pc = cpu.read_pc().wrapping_sub(4);
                 cpu.write_pc(pc.wrapping_add(imm as u32));
             }
         }
@@ -391,7 +396,7 @@ pub fn bltu(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
             let lhs = cpu.read_register(rs1);
             let rhs = cpu.read_register(rs2);
             if lhs < rhs {
-                let pc = cpu.read_pc();
+                let pc = cpu.read_pc().wrapping_sub(4);
                 cpu.write_pc(pc.wrapping_add(imm as u32));
             }
         }
@@ -407,7 +412,7 @@ pub fn bge(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
             let lhs = cpu.read_register(rs1) as i32;
             let rhs = cpu.read_register(rs2) as i32;
             if lhs >= rhs {
-                let pc = cpu.read_pc();
+                let pc = cpu.read_pc().wrapping_sub(4);
                 cpu.write_pc(pc.wrapping_add(imm as u32));
             }
         }
@@ -423,7 +428,7 @@ pub fn bgeu(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
             let lhs = cpu.read_register(rs1);
             let rhs = cpu.read_register(rs2);
             if lhs >= rhs {
-                let pc = cpu.read_pc();
+                let pc = cpu.read_pc().wrapping_sub(4);
                 cpu.write_pc(pc.wrapping_add(imm as u32));
             }
         }
