@@ -320,7 +320,9 @@ pub fn sra(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
 pub fn jal(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         BaseInstruction::UJType { rd, imm } => {
-            let pc = cpu.read_pc().wrapping_sub(4);
+            let mut pc = cpu.read_pc();
+            cpu.write_register(rd, pc);
+            pc = pc.wrapping_sub(4);
             cpu.write_pc(pc.wrapping_add(imm as u32));
         }
         _ => {
@@ -332,9 +334,12 @@ pub fn jal(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
 pub fn jalr(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         BaseInstruction::IType { rd, rs1, imm } => {
-            let pc = cpu.read_pc().wrapping_sub(4);
+            let mut pc = cpu.read_pc();
+            cpu.write_register(rd, pc);
+            pc = pc.wrapping_sub(4);
             let new_pc = cpu.read_register(rs1);
             cpu.write_pc(new_pc.wrapping_add(imm as u32) & 0xFFFFFFFE);
+            println!("rs1: {:08x}, imm: {:08x}, pc: {:08x}, new_pc: {:08x}, written_pc: {:08x}", rs1, imm, pc, new_pc, cpu.read_pc());
         }
         _ => {
             panic!("Invalid instruction type!")

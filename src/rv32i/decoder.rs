@@ -185,7 +185,7 @@ impl Operation {
                     instr = BaseInstruction::IType {
                         rd: rd(instruction),
                         rs1: rs1(instruction),
-                        imm: imm_u(instruction),
+                        imm: imm_i(instruction),
                     }
                 }
             }
