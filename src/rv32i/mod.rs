@@ -60,7 +60,6 @@ impl RV32ICPU {
 
     pub fn execute_next(&mut self) {
         let instr = self.load_word(self.pc);
-        println!("0x{:08x} :   0x{:08x}", self.pc, instr);
         self.pc = self.pc.wrapping_add(4);
         let (decoded_instr, executor) = decoder::decode(instr);
         executor(self, decoded_instr);

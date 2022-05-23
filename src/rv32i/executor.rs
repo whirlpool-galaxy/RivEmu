@@ -339,7 +339,6 @@ pub fn jalr(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
             pc = pc.wrapping_sub(4);
             let new_pc = cpu.read_register(rs1);
             cpu.write_pc(new_pc.wrapping_add(imm as u32) & 0xFFFFFFFE);
-            println!("rs1: {:08x}, imm: {:08x}, pc: {:08x}, new_pc: {:08x}, written_pc: {:08x}", rs1, imm, pc, new_pc, cpu.read_pc());
         }
         _ => {
             panic!("Invalid instruction type!")
