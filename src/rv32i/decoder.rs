@@ -180,6 +180,7 @@ impl Operation {
                 }
             }
             Operation::Jalr => {
+                func = Option::Some(func3(instruction));
                 if func3(instruction) == 0 {
                     instr = BaseInstruction::IType {
                         rd: rd(instruction),
