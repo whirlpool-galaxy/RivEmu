@@ -197,7 +197,11 @@ impl Operation {
                 }
             }
             Operation::System => {
-                // Unknown
+                instr = BaseInstruction::IType {
+                    rd: 0,
+                    rs1: 0,
+                    imm: imm_i(instruction),
+                }
             }
             Operation::Reserved2 => {}
             Operation::Custom3 => {}
@@ -334,9 +338,10 @@ impl Operation {
                 Some(_) => panic!("Invalid function code!"),
                 None => ret = jal,
             },
-            Operation::System => {
-                // Unknown
-            }
+            Operation::System => match func {
+                Some(_) => ret = eenv,
+                None => panic!("Invalid function code!"),
+            },
             Operation::Reserved2 => {}
             Operation::Custom3 => {}
             Operation::Bit80 => {}

@@ -33,12 +33,22 @@ pub trait RV32IInterface: RV32IBus {
 
     fn read_pc(&self) -> u32;
     fn write_pc(&mut self, pc: u32);
+
+    fn execute_next(&mut self);
+    fn interrupt(&mut self, number: u32);
+
+    fn get_std_irns(&self) -> (u32, u32, u32);
 }
 
 pub struct RV32ICPU {
     register: [u32; 32],
     pc: u32,
     bus: Option<Rc<RefCell<dyn RV32IBus>>>,
+    irv_offset: u32,
+    irv_length: u32,
+    reset_irn: u32,
+    ebreak_irn: u32,
+    ecall_irn: u32,
 }
 
 impl RV32ICPU {
@@ -47,6 +57,11 @@ impl RV32ICPU {
             register: [0; 32],
             pc: 0,
             bus: Option::None,
+            irv_offset: 0x00,
+            irv_length: 0x40,
+            reset_irn: 0,
+            ebreak_irn: 1,
+            ecall_irn: 2,
         }
     }
 
@@ -56,13 +71,6 @@ impl RV32ICPU {
 
     pub fn get_bus(self) -> Option<Rc<RefCell<dyn RV32IBus>>> {
         self.bus
-    }
-
-    pub fn execute_next(&mut self) {
-        let instr = self.load_word(self.pc);
-        self.pc = self.pc.wrapping_add(4);
-        let (decoded_instr, executor) = decoder::decode(instr);
-        executor(self, decoded_instr);
     }
 }
 
@@ -147,5 +155,28 @@ impl RV32IInterface for RV32ICPU {
 
     fn write_pc(&mut self, pc: u32) {
         self.pc = pc;
+    }
+
+    fn execute_next(&mut self) {
+        let instr = self.load_word(self.pc);
+        self.pc = self.pc.wrapping_add(4);
+        let (decoded_instr, executor) = decoder::decode(instr);
+        executor(self, decoded_instr);
+    }
+
+    fn interrupt(&mut self, number: u32) {
+        if number * 4 >= self.irv_length {
+            eprintln!("Unknown interrupt number: {}", number);
+        }
+        match &self.bus {
+            Some(b) => {
+                self.pc = b.borrow_mut().load_word(self.irv_offset + (number * 4));
+            }
+            _ => {}
+        };
+    }
+
+    fn get_std_irns(&self) -> (u32, u32, u32) {
+        (self.reset_irn, self.ebreak_irn, self.ecall_irn)
     }
 }
