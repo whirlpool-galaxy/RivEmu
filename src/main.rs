@@ -29,7 +29,7 @@ fn main() -> ExitCode {
                 return ExitCode::FAILURE;
             }
         },
-        None => 0x00000040,
+        None => 0x00000000,
     };
 
     let cycles = match args.get(3) {
@@ -60,6 +60,8 @@ fn main() -> ExitCode {
 
     cpu.connect_to_bus(Option::Some(bus.clone() as Rc<RefCell<dyn RV32IBus>>));
 
+    cpu.interrupt(0);
+
     if cycles == 0 {
         loop {
             cpu.execute_next();
@@ -69,6 +71,6 @@ fn main() -> ExitCode {
             cpu.execute_next();
         }
     }
-    
+
     ExitCode::SUCCESS
 }
