@@ -69,8 +69,8 @@ impl RV32ICPU {
         self.bus = bus;
     }
 
-    pub fn get_bus(self) -> Option<Rc<RefCell<dyn RV32IBus>>> {
-        self.bus
+    pub fn get_bus(&self) -> Option<Rc<RefCell<dyn RV32IBus>>> {
+        self.bus.clone()
     }
 }
 
