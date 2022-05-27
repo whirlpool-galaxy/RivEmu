@@ -8,6 +8,8 @@ use std::process::*;
 use std::rc::Rc;
 
 use riv_emu::memory::simple_mem::Basic32Mem;
+use riv_emu::peripheral::ascii_out::AsciiOut;
+use riv_emu::peripheral::MMIOMapper;
 use riv_emu::rv32i::*;
 
 fn main() -> ExitCode {
@@ -56,9 +58,20 @@ fn main() -> ExitCode {
         }
     };
 
+    let iomapper = Rc::new(RefCell::new(MMIOMapper::new(bus.clone())));
+
+    let res = iomapper
+        .borrow_mut()
+        .add_mapping(0x80000000, Rc::new(RefCell::new(AsciiOut::new())));
+
+    match res {
+        Ok(_) => (),
+        Err(e) => panic!("{}", e),
+    }
+
     let mut cpu = RV32ICPU::new();
 
-    cpu.connect_to_bus(Option::Some(bus.clone() as Rc<RefCell<dyn RV32IBus>>));
+    cpu.connect_to_bus(Option::Some(iomapper.clone() as Rc<RefCell<dyn RV32IBus>>));
 
     cpu.interrupt(0);
 

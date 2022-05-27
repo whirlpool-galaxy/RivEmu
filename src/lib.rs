@@ -5,6 +5,7 @@
 mod utility;
 
 pub mod memory;
+pub mod peripheral;
 pub mod rv32i;
 
 #[cfg(test)]

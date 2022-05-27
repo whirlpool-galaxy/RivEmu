@@ -2,11 +2,15 @@
  * Copyright (C) 2022 Jonathan Schild - All Rights Reserved
  */
 
+pub mod ascii_out;
+
+use std::cell::RefCell;
 use std::collections::HashMap;
+use std::rc::Rc;
 
 use super::rv32i::RV32IBus;
 
-struct MMIOMapper {
+pub struct MMIOMapper {
     default_bus: Rc<RefCell<dyn RV32IBus>>,
     mmio_map: HashMap<u32, Rc<RefCell<dyn RV32IBus>>>,
 }
@@ -20,15 +24,16 @@ impl MMIOMapper {
     }
 
     pub fn add_mapping(
-        mut self,
+        &mut self,
         base_address: u32,
         device: Rc<RefCell<dyn RV32IBus>>,
-    ) -> Result<(), &str> {
-        if base_address != get_base(base_address) {
+    ) -> Result<(), &'static str> {
+        if base_address != MMIOMapper::get_base(base_address) {
             Err("Is not a base address!")
+        } else {
+            self.mmio_map.insert(base_address, device);
+            Ok(())
         }
-        mmio_map.insert(base_address, device);
-        Ok()
     }
 
     fn get_base(address: u32) -> u32 {
@@ -36,9 +41,9 @@ impl MMIOMapper {
     }
 
     fn get_mapping(&self, address: u32) -> Rc<RefCell<dyn RV32IBus>> {
-        match mmio_map.get(get_base(address)) {
-            Some(b) => b,
-            None => default_bus,
+        match self.mmio_map.get(&MMIOMapper::get_base(address)) {
+            Some(b) => b.clone(),
+            None => self.default_bus.clone(),
         }
     }
 }
