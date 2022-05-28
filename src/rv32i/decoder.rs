@@ -54,7 +54,7 @@ const OPCODE_DECODING_TABLE: [[Operation; 8]; 4] = [
 ];
 
 enum Operation {
-    Compressed,
+    // Compressed,
     Load,
     LoadFp,
     Custom0,
@@ -94,7 +94,7 @@ impl Operation {
         let mut func = Option::None;
         let mut instr = BaseInstruction::Unknown { instruction };
         match self {
-            Operation::Compressed => {}
+            // Operation::Compressed => {}
             Operation::Load => {
                 func = Option::Some(func3(instruction));
                 instr = BaseInstruction::IType {
@@ -216,7 +216,7 @@ impl Operation {
     ) -> fn(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
         let mut ret = unknown as fn(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction);
         match self {
-            Operation::Compressed => {}
+            // Operation::Compressed => {}
             Operation::Load => {
                 let func = match func {
                     Some(x) => x,

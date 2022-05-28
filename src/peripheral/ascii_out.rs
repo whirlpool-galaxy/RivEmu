@@ -8,14 +8,14 @@ use super::*;
 
 pub struct AsciiOut {
     buffer: Vec<u8>,
-    base_address: u32,
+    _base_address: u32,
 }
 
 impl AsciiOut {
     pub fn new() -> AsciiOut {
         AsciiOut {
             buffer: Vec::new(),
-            base_address: 0x80000000,
+            _base_address: 0x80000000,
         }
     }
 
@@ -38,15 +38,15 @@ impl AsciiOut {
 }
 
 impl RV32IBus for AsciiOut {
-    fn load_byte(&mut self, address: u32) -> u8 {
+    fn load_byte(&mut self, _address: u32) -> u8 {
         0
     }
 
-    fn load_half_word(&mut self, address: u32) -> u16 {
+    fn load_half_word(&mut self, _address: u32) -> u16 {
         0
     }
 
-    fn load_word(&mut self, address: u32) -> u32 {
+    fn load_word(&mut self, _address: u32) -> u32 {
         0
     }
 
@@ -61,7 +61,7 @@ impl RV32IBus for AsciiOut {
         }
     }
 
-    fn store_half_word(&mut self, address: u32, data: u16) {}
+    fn store_half_word(&mut self, _address: u32, _data: u16) {}
 
-    fn store_word(&mut self, address: u32, data: u32) {}
+    fn store_word(&mut self, _address: u32, _data: u32) {}
 }

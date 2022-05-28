@@ -2,9 +2,9 @@
  * Copyright (C) 2022 Jonathan Schild - All Rights Reserved
  */
 
-pub fn opcode(inst: u32) -> u8 {
-    select_bits_unsigned(inst, 0, 7) as u8
-}
+// pub fn opcode(inst: u32) -> u8 {
+//     select_bits_unsigned(inst, 0, 7) as u8
+// }
 
 pub fn opcode_div(inst: u32) -> (u32, u32, u32) {
     (
@@ -84,9 +84,9 @@ pub fn select_bits_unsigned(instruction: u32, low_bit: u32, length: u32) -> u32 
 }
 
 /// Returns the length of a bit field.
-pub fn bit_length(low: u32, high: u32) -> u32 {
-    high - low + 1
-}
+// pub fn bit_length(low: u32, high: u32) -> u32 {
+//     high - low + 1
+// }
 
 #[cfg(test)]
 mod tests {

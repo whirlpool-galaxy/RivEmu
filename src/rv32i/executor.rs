@@ -4,7 +4,7 @@
 
 use super::*;
 
-pub fn unknown(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
+pub fn unknown(_cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         BaseInstruction::Unknown { instruction } => {
             panic!("Unknown instruction: 0x{:08x}", instruction)
@@ -334,9 +334,9 @@ pub fn jal(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
 pub fn jalr(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         BaseInstruction::IType { rd, rs1, imm } => {
-            let mut pc = cpu.read_pc();
+            let pc = cpu.read_pc();
             cpu.write_register(rd, pc);
-            pc = pc.wrapping_sub(4);
+            // pc = pc.wrapping_sub(4);
             let new_pc = cpu.read_register(rs1);
             cpu.write_pc(new_pc.wrapping_add(imm as u32) & 0xFFFFFFFE);
         }
@@ -562,12 +562,12 @@ pub fn sw(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     }
 }
 
-pub fn fence(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {}
+// pub fn fence(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {}
 
 pub fn eenv(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
-        BaseInstruction::IType { rd, rs1, imm } => {
-            let (r, b, c) = cpu.get_std_irns();
+        BaseInstruction::IType { imm, .. } => {
+            let (_r, b, c) = cpu.get_std_irns();
             if imm == 1 {
                 cpu.interrupt(b);
             } else if imm == 0 {
