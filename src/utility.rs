@@ -23,7 +23,7 @@ pub fn rs1(inst: u32) -> u8 {
 }
 
 pub fn rs2(inst: u32) -> u8 {
-    select_bits_unsigned(inst, 12, 5) as u8
+    select_bits_unsigned(inst, 20, 5) as u8
 }
 
 pub fn func3(inst: u32) -> u16 {
