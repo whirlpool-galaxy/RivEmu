@@ -4,7 +4,7 @@
 
 //! Implementations of the instruction execution for a `rv32i` `CPU`.
 //!
-//! # Autors and Copyright
+//! # Authors and Copyright
 //! Copyright (C) 2022 Jonathan Schild - All Rights Reserved
 //!  
 //! - Jonathan Schild

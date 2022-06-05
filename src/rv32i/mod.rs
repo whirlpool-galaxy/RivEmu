@@ -4,7 +4,7 @@
 
 //! Basic functions, traits and structs for `rv32i` `CPU`s.
 //!
-//! # Autors and Copyright
+//! # Authors and Copyright
 //! Copyright (C) 2022 Jonathan Schild - All Rights Reserved
 //!  
 //! - Jonathan Schild
