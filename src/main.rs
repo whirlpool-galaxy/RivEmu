@@ -2,17 +2,7 @@
  * Copyright (C) 2022 Jonathan Schild - All Rights Reserved
  */
 
-//! # RivEmu
-//!
-//! Simple and easily extendable RISC-V emulator.
-//!
-//! - [Git](https://gitlab.com/nerds-forge/rivemu)
-//! - [Issues & Bugs](https://gitlab.com/nerds-forge/rivemu/-/issues/new)
-//!
-//! # Autors and Copyright
-//! Copyright (C) 2022 Jonathan Schild - All Rights Reserved
-//!  
-//! - Jonathan Schild
+#![doc = include_str!("../README.md")]
 
 use std::cell::RefCell;
 use std::env;

@@ -2,45 +2,7 @@
  * Copyright (C) 2022 Jonathan Schild - All Rights Reserved
  */
 
-//! # LibRivEmu
-//!
-//! Easily extendable library to emulate RISC-V.
-//!
-//! - [Git](https://gitlab.com/nerds-forge/rivemu)
-//! - [Issues & Bugs](https://gitlab.com/nerds-forge/rivemu/-/issues/new)
-//!
-//! ## Features
-//!
-//! List of planed and implemented features. And a list of features that are considered stable
-//!
-//! ### Implementation status
-//!
-//! - [x] rv32i
-//! - [ ] Zicsr
-//!     - [ ] Machine
-//!     - [ ] Supervisor
-//!     - [ ] User
-//! - [ ] A
-//! - [ ] M
-//! - [ ] F
-//! - [ ] D
-//!
-//! ### Release status
-//!
-//! - [ ] rv32i
-//! - [ ] Zicsr
-//!     - [ ] Machine
-//!     - [ ] Supervisor
-//!     - [ ] User
-//! - [ ] A
-//! - [ ] M
-//! - [ ] F
-//! - [ ] D
-//!
-//! # Autors and Copyright
-//! Copyright (C) 2022 Jonathan Schild - All Rights Reserved
-//!  
-//! - Jonathan Schild
+#![doc = include_str!("../README.md")]
 
 mod utility;
 
