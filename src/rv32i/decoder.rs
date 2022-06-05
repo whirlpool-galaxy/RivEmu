@@ -2,14 +2,21 @@
  * Copyright (C) 2022 Jonathan Schild - All Rights Reserved
  */
 
+//! Decoder for a `rv32i` `CPU`.
+//!
+//! # Autors and Copyright
+//! Copyright (C) 2022 Jonathan Schild - All Rights Reserved
+//!  
+//! - Jonathan Schild
+
 use super::executor::*;
 use super::BaseInstruction;
 use super::RV32IInterface;
 use crate::utility::*;
 
-/**
- * Table containing opcode types indexed by bit [`[6:5]`, `[4:2]`].
- */
+///
+/// Table containing opcode types indexed by bit [`[6:5]`, `[4:2]`].
+///
 const OPCODE_DECODING_TABLE: [[Operation; 8]; 4] = [
     [
         Operation::Load,
@@ -53,6 +60,7 @@ const OPCODE_DECODING_TABLE: [[Operation; 8]; 4] = [
     ],
 ];
 
+/// All opcode except `C-Extension` opcodes.
 enum Operation {
     // Compressed,
     Load,
@@ -90,6 +98,9 @@ enum Operation {
 }
 
 impl Operation {
+    /// Decodes an instruction in to a `function code` part and a [BaseInstruction] part.
+    ///
+    /// If the default return value is `(None, BaseInstruction::Unknown)`.
     fn decode(&self, instruction: u32) -> (Option<u16>, BaseInstruction) {
         let mut func = Option::None;
         let mut instr = BaseInstruction::Unknown { instruction };
@@ -210,6 +221,9 @@ impl Operation {
         (func, instr)
     }
 
+    /// Returns the executor functions for a given `function code`.
+    ///
+    /// The default return value is [unknown].
     fn get_executor(
         &self,
         func: Option<u16>,
@@ -350,6 +364,7 @@ impl Operation {
     }
 }
 
+/// Returns the [BaseInstruction] and an executor function for a given instruction.
 pub fn decode(
     instruction: u32,
 ) -> (

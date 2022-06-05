@@ -2,6 +2,18 @@
  * Copyright (C) 2022 Jonathan Schild - All Rights Reserved
  */
 
+//! # RivEmu
+//!
+//! Simple and easily extendable RISC-V emulator.
+//!
+//! - [Git](https://gitlab.com/nerds-forge/rivemu)
+//! - [Issues & Bugs](https://gitlab.com/nerds-forge/rivemu/-/issues/new)
+//!
+//! # Autors and Copyright
+//! Copyright (C) 2022 Jonathan Schild - All Rights Reserved
+//!  
+//! - Jonathan Schild
+
 use std::cell::RefCell;
 use std::env;
 use std::process::*;
@@ -35,7 +47,7 @@ fn main() -> ExitCode {
     };
 
     let cycles = match args.get(3) {
-        Some(s) => match u32::from_str_radix(s, 10) {
+        Some(s) => match s.parse::<u32>() {
             Ok(addr) => addr,
             Err(_) => {
                 println!("Can not parse number of cycles!");
@@ -58,7 +70,7 @@ fn main() -> ExitCode {
         }
     };
 
-    let iomapper = Rc::new(RefCell::new(MMIOMapper::new(bus.clone())));
+    let iomapper = Rc::new(RefCell::new(MMIOMapper::new(bus)));
 
     let res = iomapper
         .borrow_mut()

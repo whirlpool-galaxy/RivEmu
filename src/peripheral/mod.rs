@@ -2,14 +2,24 @@
  * Copyright (C) 2022 Jonathan Schild - All Rights Reserved
  */
 
+//! Module for peripheral devices.
+//!
+//! # Autors and Copyright
+//! Copyright (C) 2022 Jonathan Schild - All Rights Reserved
+//!  
+//! - Jonathan Schild
+
 pub mod ascii_out;
 
 use std::cell::RefCell;
 use std::collections::HashMap;
 use std::rc::Rc;
 
+use crate::memory::simple_mem::Basic32Mem;
+
 use super::rv32i::RV32IBus;
 
+/// Maps 64 Byte region of memory to special [RV32IBus] devices. Base address must be 64 Byte aligned.
 pub struct MMIOMapper {
     default_bus: Rc<RefCell<dyn RV32IBus>>,
     mmio_map: HashMap<u32, Rc<RefCell<dyn RV32IBus>>>,
@@ -79,5 +89,11 @@ impl RV32IBus for MMIOMapper {
         self.get_mapping(address)
             .borrow_mut()
             .store_word(address, data);
+    }
+}
+
+impl Default for Basic32Mem {
+    fn default() -> Self {
+        Self::new()
     }
 }

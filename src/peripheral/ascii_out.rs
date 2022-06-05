@@ -21,10 +21,11 @@ impl AsciiOut {
 
     fn flush(&mut self) {
         let s = from_utf8(self.buffer.as_slice());
-        match s {
-            Ok(st) => print!("{}", st),
-            Err(_) => (),
+
+        if let Ok(st) = s {
+            print!("{}", st)
         };
+
         self.buffer.clear();
     }
 
@@ -64,4 +65,10 @@ impl RV32IBus for AsciiOut {
     fn store_half_word(&mut self, _address: u32, _data: u16) {}
 
     fn store_word(&mut self, _address: u32, _data: u32) {}
+}
+
+impl Default for AsciiOut {
+    fn default() -> Self {
+        Self::new()
+    }
 }

@@ -7,4 +7,8 @@ publish = false
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[[bin]]
+name = "run_riv_emu"
+path = "src/main.rs"
+
 [dependencies]

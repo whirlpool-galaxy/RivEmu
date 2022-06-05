@@ -2,6 +2,13 @@
  * Copyright (C) 2022 Jonathan Schild - All Rights Reserved
  */
 
+//! Implementations of the instruction execution for a `rv32i` `CPU`.
+//!
+//! # Autors and Copyright
+//! Copyright (C) 2022 Jonathan Schild - All Rights Reserved
+//!  
+//! - Jonathan Schild
+
 use super::*;
 
 pub fn unknown(_cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
@@ -97,9 +104,9 @@ pub fn xori(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     }
 }
 
-/**
- * WARNING: Expects RType instead of in RISC-V Spec specified IType!
- */
+///
+/// **WARNING**: Expects RType instead of in RISC-V Spec specified IType!
+///
 pub fn slli(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         // Is actually IType
@@ -114,9 +121,9 @@ pub fn slli(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     }
 }
 
-/**
- * WARNING: Expects RType instead of in RISC-V Spec specified IType!
- */
+///
+/// **WARNING**: Expects RType instead of in RISC-V Spec specified IType!
+///
 pub fn srli(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         // Is actually IType
@@ -131,9 +138,9 @@ pub fn srli(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     }
 }
 
-/**
- * WARNING: Expects RType instead of in RISC-V Spec specified IType!
- */
+///
+/// **WARNING**: Expects RType instead of in RISC-V Spec specified IType!
+///
 pub fn srai(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         // Is actually IType
@@ -562,8 +569,9 @@ pub fn sw(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     }
 }
 
-// pub fn fence(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {}
-
+///
+/// **WARNING**: Implementation is incomplete.
+///
 pub fn eenv(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
     match instruction {
         BaseInstruction::IType { imm, .. } => {

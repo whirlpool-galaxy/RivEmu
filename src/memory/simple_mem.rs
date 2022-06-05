@@ -2,23 +2,38 @@
  * Copyright (C) 2022 Jonathan Schild - All Rights Reserved
  */
 
+//! Emulating memory with a standard [HashMap].
+//!
+//! # Autors and Copyright
+//! Copyright (C) 2022 Jonathan Schild - All Rights Reserved
+//!  
+//! - Jonathan Schild
+
 use std::collections::HashMap;
 use std::fs::File;
 use std::io::Read;
 
 use crate::rv32i::RV32IBus;
 
+/// Basic [HashMap] based memory.
 pub struct Basic32Mem {
     mem: HashMap<u32, u32>,
 }
 
 impl Basic32Mem {
+    /// Create new [Basic32Mem] initialised with 0.
     pub fn new() -> Basic32Mem {
         Basic32Mem {
             mem: HashMap::new(),
         }
     }
 
+    /// Load memory image from file `memory_image_file` with starting add address `start_addr`.
+    ///
+    /// - `start_addr`: Start address of memory image. Must be 4 byte aligned.
+    /// - `memory_image_path`: Path to memory image file.
+    ///
+    /// Returns [Result] containing `()` or an error message string.
     pub fn load_memory_image(
         &mut self,
         start_addr: u32,
@@ -143,6 +158,11 @@ impl crate::rv32i::RV32IBus for Basic32Mem {
     }
 }
 
+/// Converts an address in a 4 byte aligned part and an offset.
+///
+/// - `address`: Address to convert.
+///
+/// Returns a tuple `(aligned, offset)` where `aligned` is `address >> 2` and `offset` is `address % 4`.
 fn word_aligned_address(address: u32) -> (u32, u32) {
     (address >> 2, address % 4)
 }
