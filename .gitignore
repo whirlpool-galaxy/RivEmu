@@ -3,5 +3,8 @@ Cargo.lock
 
 /.vscode
 *.code-workspace
+
 *.bin
 *.o
+*.elf*
+rivemu_rv32i
