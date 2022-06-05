@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2022 Jonathan Schild - All Rights Reserved
+ * Copyright (C) 2022 Jonathan Schild - MIT License
  */
 
 //! Emulating memory with a standard [HashMap].
 //!
 //! # Authors and Copyright
-//! Copyright (C) 2022 Jonathan Schild - All Rights Reserved
+//! Copyright (C) 2022 Jonathan Schild - MIT License
 //!  
 //! - Jonathan Schild
 

@@ -124,6 +124,6 @@ List of planed and implemented features. And a list of features that are conside
 ``` 
 
 ## Authors and Copyright
-Copyright (C) 2022 Jonathan Schild - All Rights Reserved
+Copyright (C) 2022 Jonathan Schild - MIT License
 
  - Jonathan Schild

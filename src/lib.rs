@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Jonathan Schild - All Rights Reserved
+ * Copyright (C) 2022 Jonathan Schild - MIT License
  */
 
 #![doc = include_str!("../README.md")]

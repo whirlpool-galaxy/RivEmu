@@ -1,0 +1,7 @@
+# Riv Emu Release Notes
+## v0.0.1
+
+- rudimentary rv32i instruction set emulator
+- rudimentary build system for memory images
+- rudimentary front end
+- basic documentation

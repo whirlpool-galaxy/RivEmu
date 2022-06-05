@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2022 Jonathan Schild - All Rights Reserved
+ * Copyright (C) 2022 Jonathan Schild - MIT License
  */
 
 //! Basic functions, traits and structs for `rv32i` `CPU`s.
 //!
 //! # Authors and Copyright
-//! Copyright (C) 2022 Jonathan Schild - All Rights Reserved
+//! Copyright (C) 2022 Jonathan Schild - MIT License
 //!  
 //! - Jonathan Schild
 
