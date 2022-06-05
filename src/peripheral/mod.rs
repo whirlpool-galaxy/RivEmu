@@ -15,8 +15,6 @@ use std::cell::RefCell;
 use std::collections::HashMap;
 use std::rc::Rc;
 
-use crate::memory::simple_mem::Basic32Mem;
-
 use super::rv32i::RV32IBus;
 
 /// Maps 64 Byte region of memory to special [RV32IBus] devices. Base address must be 64 Byte aligned.
@@ -93,12 +91,5 @@ impl RV32IBus for MMIOMapper {
         self.get_mapping(address)
             .borrow_mut()
             .store_word(address, data);
-    }
-}
-
-impl Default for Basic32Mem {
-    /// Calls [MMIOMapper::new()].
-    fn default() -> Self {
-        Self::new()
     }
 }
