@@ -344,7 +344,7 @@ pub fn jalr(cpu: &mut dyn RV32IInterface, instruction: BaseInstruction) {
             let pc = cpu.read_pc();
             // pc = pc.wrapping_sub(4);
             let new_pc = cpu.read_register(rs1);
-            cpu.write_pc(new_pc.wrapping_add(imm as u32 & 0xFFFFFFFE));
+            cpu.write_pc(new_pc.wrapping_add(imm as u32) & 0xFFFFFFFE);
             cpu.write_register(rd, pc);
         }
         _ => {
