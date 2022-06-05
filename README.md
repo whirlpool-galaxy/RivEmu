@@ -38,7 +38,7 @@ List of planed and implemented features. And a list of features that are conside
 
 ## Usage
 
-    run_riv_emu <path/to/memory/image> [load address in hex [number of cycles]]
+    run_riv_emu <path/to/memory/image> [<load address in hex> [<number of cycles>]]
 
 ### Creation of a memory image
 

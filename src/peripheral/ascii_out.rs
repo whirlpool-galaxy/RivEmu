@@ -2,16 +2,25 @@
  * Copyright (C) 2022 Jonathan Schild - All Rights Reserved
  */
 
+//! Simple ascii output device.
+//!
+//! # Authors and Copyright
+//! Copyright (C) 2022 Jonathan Schild - All Rights Reserved
+//!  
+//! - Jonathan Schild
+
 use std::{str::from_utf8, vec::Vec};
 
 use super::*;
 
+/// Simple ascii output device.
 pub struct AsciiOut {
     buffer: Vec<u8>,
     _base_address: u32,
 }
 
 impl AsciiOut {
+    /// Create a new [AsciiOut] instance.
     pub fn new() -> AsciiOut {
         AsciiOut {
             buffer: Vec::new(),
@@ -19,6 +28,7 @@ impl AsciiOut {
         }
     }
 
+    /// Flushes the output buffer to the standard output.
     fn flush(&mut self) {
         let s = from_utf8(self.buffer.as_slice());
 
@@ -29,10 +39,12 @@ impl AsciiOut {
         self.buffer.clear();
     }
 
+    /// Clears the output buffer.
     fn clear(&mut self) {
         self.buffer.clear();
     }
 
+    /// Append a ascii character to the output buffer.
     fn append(&mut self, c: u8) {
         self.buffer.push(c);
     }
@@ -68,6 +80,7 @@ impl RV32IBus for AsciiOut {
 }
 
 impl Default for AsciiOut {
+    /// Calls [AsciiOut::new()].
     fn default() -> Self {
         Self::new()
     }

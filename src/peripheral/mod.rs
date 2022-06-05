@@ -26,6 +26,7 @@ pub struct MMIOMapper {
 }
 
 impl MMIOMapper {
+    /// Create a new [MMIOMapper].
     pub fn new(default_bus: Rc<RefCell<dyn RV32IBus>>) -> MMIOMapper {
         MMIOMapper {
             default_bus,
@@ -33,6 +34,7 @@ impl MMIOMapper {
         }
     }
 
+    /// Add a new mapping at `base_address` which maps to `device`.
     pub fn add_mapping(
         &mut self,
         base_address: u32,
@@ -46,10 +48,12 @@ impl MMIOMapper {
         }
     }
 
+    /// Returns the 64 Bytes aligned base address for a given address.
     fn get_base(address: u32) -> u32 {
         address & !0b111111
     }
 
+    /// Returns the mapped device for a given address.
     fn get_mapping(&self, address: u32) -> Rc<RefCell<dyn RV32IBus>> {
         match self.mmio_map.get(&MMIOMapper::get_base(address)) {
             Some(b) => b.clone(),
@@ -93,6 +97,7 @@ impl RV32IBus for MMIOMapper {
 }
 
 impl Default for Basic32Mem {
+    /// Calls [MMIOMapper::new()].
     fn default() -> Self {
         Self::new()
     }
