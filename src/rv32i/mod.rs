@@ -123,6 +123,8 @@ pub struct RV32ICPU {
     u_ecall_irn: u32,
     /// Interrupt number for `illegal instruction`.
     illegal_instruction_irn: u32,
+    /// Interrupt number for `instruction address misaligned exception`.
+    instruction_address_misaligned_irn: u32,
 }
 
 impl RV32ICPU {
@@ -136,6 +138,7 @@ impl RV32ICPU {
     /// - [RV32ICPU::s_ecall_irn] is 3.
     /// - [RV32ICPU::u_ecall_irn] is 4.
     /// - [RV32ICPU::illegal_instruction_irn] is 5.
+    /// - [RV32ICPU::instruction_address_misaligned_irn] is 6.
     pub fn new() -> RV32ICPU {
         RV32ICPU {
             register: [0; 32],
@@ -149,6 +152,7 @@ impl RV32ICPU {
             s_ecall_irn: 3,
             u_ecall_irn: 4,
             illegal_instruction_irn: 5,
+            instruction_address_misaligned_irn: 6,
         }
     }
 
@@ -238,10 +242,14 @@ impl RV32IInterface for RV32ICPU {
     }
 
     fn execute_next(&mut self) {
-        let instr = self.load_word(self.pc);
-        self.pc = self.pc.wrapping_add(4);
-        let (decoded_instr, executor) = decoder::decode(instr);
-        executor(self, decoded_instr);
+        if self.pc % 4 != 0 {
+            self.interrupt(self.instruction_address_misaligned_irn);
+        } else {
+            let instr = self.load_word(self.pc);
+            self.pc = self.pc.wrapping_add(4);
+            let (decoded_instr, executor) = decoder::decode(instr);
+            executor(self, decoded_instr);
+        }
     }
 
     fn interrupt(&mut self, number: u32) {

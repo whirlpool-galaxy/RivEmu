@@ -16,6 +16,9 @@
 .global IRQ_illegal_instruction
 .weak IRQ_illegal_instruction
 
+.global IRQ_instruction_address_misaligned
+.weak IRQ_instruction_address_misaligned
+
 .global print
 
 .data
@@ -29,7 +32,7 @@
     .word IRQ_s_ecall
     .word IRQ_u_ecall
     .word IRQ_illegal_instruction
-    .word 0
+    .word IRQ_instruction_address_misaligned
     .word 0
     .word 0
     .word 0
@@ -48,6 +51,7 @@ IRQ_m_ecall:
 IRQ_s_ecall:
 IRQ_u_ecall:
 IRQ_illegal_instruction:
+IRQ_instruction_address_misaligned:
     j LOOP
 
 LOOP:
