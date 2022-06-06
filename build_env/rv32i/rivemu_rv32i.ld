@@ -1,4 +1,4 @@
-ENTRY(IRQH_reset)
+ENTRY(IRQ_reset)
 
 MEMORY
 {
@@ -17,8 +17,10 @@ SECTIONS
         *(.text)
         *(.data)
         *(.bss)
+        *(.rodata)
         *(.text*)
         *(.data*)
         *(.bss*)
+        *(.rodata*)
     }
 }

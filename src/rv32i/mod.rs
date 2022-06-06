@@ -95,8 +95,8 @@ pub trait RV32IInterface: RV32IBus {
     /// **WARNING:** Implementations is incomplete. Pleas view source code of the implementation bevor usage.
     fn interrupt(&mut self, number: u32);
 
-    /// Returns the interrupt numbers for ` (Reset, ebreak, ecall)`.
-    fn get_std_irns(&self) -> (u32, u32, u32);
+    /// Returns the interrupt numbers for ` (Reset, ebreak, m_ecall, s_ecall, u_ecall, illegal_instruction)`.
+    fn get_std_irns(&self) -> (u32, u32, u32, u32, u32, u32);
 }
 
 /// An implementation of a `rv32i` `cpu`.
@@ -115,8 +115,14 @@ pub struct RV32ICPU {
     reset_irn: u32,
     /// Interrupt number for `ebreak`.
     ebreak_irn: u32,
-    /// Interrupt number for `ecall`.
-    ecall_irn: u32,
+    /// Interrupt number for `ecall` from `machine mode`.
+    m_ecall_irn: u32,
+    /// Interrupt number for `ecall` from `supervisor mode`.
+    s_ecall_irn: u32,
+    /// Interrupt number for `ecall` from `user mode`.
+    u_ecall_irn: u32,
+    /// Interrupt number for `illegal instruction`.
+    illegal_instruction_irn: u32,
 }
 
 impl RV32ICPU {
@@ -126,7 +132,10 @@ impl RV32ICPU {
     /// - [RV32ICPU::irv_length] is 0x40.
     /// - [RV32ICPU::reset_irn] is 0.
     /// - [RV32ICPU::ebreak_irn] is 1.
-    /// - [RV32ICPU::ecall_irn] is 2.
+    /// - [RV32ICPU::m_ecall_irn] is 2.
+    /// - [RV32ICPU::s_ecall_irn] is 3.
+    /// - [RV32ICPU::u_ecall_irn] is 4.
+    /// - [RV32ICPU::illegal_instruction_irn] is 5.
     pub fn new() -> RV32ICPU {
         RV32ICPU {
             register: [0; 32],
@@ -136,7 +145,10 @@ impl RV32ICPU {
             irv_length: 0x40,
             reset_irn: 0,
             ebreak_irn: 1,
-            ecall_irn: 2,
+            m_ecall_irn: 2,
+            s_ecall_irn: 3,
+            u_ecall_irn: 4,
+            illegal_instruction_irn: 5,
         }
     }
 
@@ -241,8 +253,15 @@ impl RV32IInterface for RV32ICPU {
         };
     }
 
-    fn get_std_irns(&self) -> (u32, u32, u32) {
-        (self.reset_irn, self.ebreak_irn, self.ecall_irn)
+    fn get_std_irns(&self) -> (u32, u32, u32, u32, u32, u32) {
+        (
+            self.reset_irn,
+            self.ebreak_irn,
+            self.m_ecall_irn,
+            self.s_ecall_irn,
+            self.u_ecall_irn,
+            self.illegal_instruction_irn,
+        )
     }
 }
 

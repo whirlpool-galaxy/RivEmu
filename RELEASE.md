@@ -5,3 +5,7 @@
 - rudimentary build system for memory images
 - rudimentary front end
 - basic documentation
+
+## v0.0.2
+
+- add illegal instruction support

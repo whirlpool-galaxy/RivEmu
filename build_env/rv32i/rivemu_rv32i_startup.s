@@ -1,11 +1,20 @@
-.global IRQH_reset
-.weak IRQH_reset
+.global IRQ_reset
+.weak IRQ_reset
 
-.global IRQH_ebreak
-.weak IRQH_ebreak
+.global IRQ_ebreak
+.weak IRQ_ebreak
 
-.global IRQH_ecall
-.weak IRQH_ecall
+.global IRQ_m_ecall
+.weak IRQ_m_ecall
+
+.global IRQ_s_ecall
+.weak IRQ_s_ecall
+
+.global IRQ_u_ecall
+.weak IRQ_u_ecall
+
+.global IRQ_illegal_instruction
+.weak IRQ_illegal_instruction
 
 .global print
 
@@ -14,12 +23,12 @@
     .word 0x80000000
 
 .section .irq
-    .word IRQH_reset
-    .word IRQH_ebreak
-    .word IRQH_ecall
-    .word 0
-    .word 0
-    .word 0
+    .word IRQ_reset
+    .word IRQ_ebreak
+    .word IRQ_m_ecall
+    .word IRQ_s_ecall
+    .word IRQ_u_ecall
+    .word IRQ_illegal_instruction
     .word 0
     .word 0
     .word 0
@@ -33,14 +42,17 @@
 
 .text
 
-IRQH_reset:
-    j main
+IRQ_reset:
+IRQ_ebreak:
+IRQ_m_ecall:
+IRQ_s_ecall:
+IRQ_u_ecall:
+IRQ_illegal_instruction:
+    j LOOP
 
-IRQH_ebreak:
-    j main
+LOOP:
+    j LOOP
 
-IRQH_ecall:
-    j main
 
 print:
     // t0 print_out
@@ -48,16 +60,13 @@ print:
 
     lw t0, print_out
 
-loop0:
+loop:
     lb t1, (a0)
-    beqz t1, end0
+    beqz t1, end
     sb t1, 2(t0)
     addi a0, a0, 1
-    j loop0
+    j loop
 
-end0:
+end:
     sb zero, (t0)
     ret
-
-main:
-    j main
