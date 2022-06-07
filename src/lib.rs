@@ -6,9 +6,8 @@
 
 mod utility;
 
-pub mod memory;
-pub mod peripheral;
-pub mod rv32i;
+pub mod base_isa;
+pub mod simple;
 
 #[cfg(test)]
 mod tests {

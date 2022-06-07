@@ -2,11 +2,12 @@
  * Copyright (C) 2022 Jonathan Schild - MIT License
  */
 
-//! Module for memory emulation.
+//! TBA
 //!
 //! # Authors and Copyright
 //! Copyright (C) 2022 Jonathan Schild - MIT License
 //!  
 //! - Jonathan Schild
 
-pub mod simple_mem;
+pub mod mem;
+pub mod peripheral;

@@ -13,7 +13,7 @@ use std::collections::HashMap;
 use std::fs::File;
 use std::io::Read;
 
-use crate::rv32i::RV32IBus;
+use crate::base_isa::rv32i::RV32IBus;
 
 /// Basic [HashMap] based memory.
 pub struct Basic32Mem {
@@ -61,7 +61,7 @@ impl Basic32Mem {
     }
 }
 
-impl crate::rv32i::RV32IBus for Basic32Mem {
+impl RV32IBus for Basic32Mem {
     fn load_byte(&mut self, address: u32) -> u8 {
         let (addr, off) = word_aligned_address(address);
         let data = match self.mem.get(&addr) {

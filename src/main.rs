@@ -9,10 +9,10 @@ use std::env;
 use std::process::*;
 use std::rc::Rc;
 
-use riv_emu::memory::simple_mem::Basic32Mem;
-use riv_emu::peripheral::ascii_out::AsciiOut;
-use riv_emu::peripheral::MMIOMapper;
-use riv_emu::rv32i::*;
+use riv_emu::base_isa::rv32i::*;
+use riv_emu::simple::mem::Basic32Mem;
+use riv_emu::simple::peripheral::ascii_out::AsciiOut;
+use riv_emu::simple::peripheral::MMIOMapper;
 
 fn main() -> ExitCode {
     let args: Vec<String> = env::args().collect();
