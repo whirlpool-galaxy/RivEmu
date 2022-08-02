@@ -9,8 +9,8 @@ OFLAGS			= -O binary
 CSRC			= $(wildcard *.c)
 SSRC			= $(wildcard *.s)
 
-COBJ			= $(addprefix $(BUILDDIR)/, $(CSRC:.c=.o))
-SOBJ			= $(addprefix $(BUILDDIR)/, $(SSRC:.s=.o))
+COBJ			= $(addprefix $(BUILDDIR)/, $(CSRC:.c=.c.o))
+SOBJ			= $(addprefix $(BUILDDIR)/, $(SSRC:.s=.s.o))
 
 BUILDDIR		= build
 
@@ -30,10 +30,10 @@ $(OUTPUT): $(OUTPUT).elf
 $(OUTPUT).elf: $(COBJ) $(SOBJ)
 	$(LD) $(LFLAGS) -o $(OUTPUT).elf $(COBJ) $(SOBJ)
 
-$(COBJ): $(CSRC)
+$(BUILDDIR)/%.c.o: %.c
 	$(CC) $(CFLAGS) -o $@ $<
 
-$(SOBJ): $(SSRC)
+$(BUILDDIR)/%.s.o: %.s
 	$(CC) $(CFLAGS) -o $@ $<
 
 clean:

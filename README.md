@@ -53,7 +53,7 @@ List of planed and implemented features. And a list of features that are conside
 #### rivemu_rv32i.ld
 
 ```
-    ENTRY(IRQH_reset)
+    ENTRY(IRQ_reset)
 
     MEMORY
     {
@@ -62,22 +62,25 @@ List of planed and implemented features. And a list of features that are conside
 
     SECTIONS
     {  
-
         .text : {
             . = 0x00000000;
             *(.irq)
+
             . = 0x00000040;
             */rivemu_rv32i_startup.o (.text)
             */rivemu_rv32i_startup.o (.data)
             */rivemu_rv32i_startup.o (.bss)
+
             *(.text)
             *(.data)
             *(.bss)
+            *(.rodata)
+
             *(.text*)
             *(.data*)
             *(.bss*)
+            *(.rodata*)
         }
-
     }
 ```
 
@@ -86,42 +89,68 @@ List of planed and implemented features. And a list of features that are conside
 ```
     .global IRQH_reset
     .weak IRQH_reset
-
+    
     .global IRQH_ebreak
     .weak IRQH_ebreak
-
-    .global IRQH_ecall
-    .weak IRQH_ecall
-
+    
+    .global IRQH_m_ecall
+    .weak IRQH_m_ecall
+    
+    .global IRQH_s_ecall
+    .weak IRQH_s_ecall
+    
+    .global IRQH_u_ecall
+    .weak IRQH_u_ecall
+    
+    .global IRQH_illegal_instruction
+    .weak IRQH_illegal_instruction
+    
+    .global IRQH_instruction_address_misaligned
+    .weak IRQH_instruction_address_misaligned
+    
     .section .irq
-        .word IRQH_reset
-        .word IRQH_ebreak
-        .word IRQH_ecall
-        .word 0
-        .word 0
-        .word 0
-        .word 0
-        .word 0
-        .word 0
-        .word 0
-        .word 0
-        .word 0
-        .word 0
-        .word 0
-        .word 0
-        .word 0
-
+    .word IRQH_reset
+    .word IRQH_ebreak
+    .word IRQH_m_ecall
+    .word IRQH_s_ecall
+    .word IRQH_u_ecall
+    .word IRQH_illegal_instruction
+    .word IRQH_instruction_address_misaligned
+    .word 0
+    .word 0
+    .word 0
+    .word 0
+    .word 0
+    .word 0
+    .word 0
+    .word 0
+    .word 0
+    
     .text
-
+    
     IRQH_reset:
-        j main
-
+        call main
+        j END_OF_CODE
+    
     IRQH_ebreak:
-        j main
-
+        j END_OF_CODE
+    
     IRQH_ecall:
-        j main
+        j END_OF_CODE
+    
+    IRQH_illegal_instruction:
+        j END_OF_CODE
+    
+    IRQH_instruction_address_misaligned:
+        j END_OF_CODE
+    
+    END_OF_CODE:
+        j END_OF_CODE
 ``` 
+
+## Module diagram
+
+![module overview](doc/module.png)
 
 ## Authors and Copyright
 Copyright (C) 2022 Jonathan Schild - MIT License

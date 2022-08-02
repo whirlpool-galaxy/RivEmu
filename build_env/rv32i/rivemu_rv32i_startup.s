@@ -1,76 +1,59 @@
-.global IRQ_reset
-.weak IRQ_reset
+.global IRQH_reset
+.weak IRQH_reset
 
-.global IRQ_ebreak
-.weak IRQ_ebreak
+.global IRQH_ebreak
+.weak IRQH_ebreak
 
-.global IRQ_m_ecall
-.weak IRQ_m_ecall
+.global IRQH_m_ecall
+.weak IRQH_m_ecall
 
-.global IRQ_s_ecall
-.weak IRQ_s_ecall
+.global IRQH_s_ecall
+.weak IRQH_s_ecall
 
-.global IRQ_u_ecall
-.weak IRQ_u_ecall
+.global IRQH_u_ecall
+.weak IRQH_u_ecall
 
-.global IRQ_illegal_instruction
-.weak IRQ_illegal_instruction
+.global IRQH_illegal_instruction
+.weak IRQH_illegal_instruction
 
-.global IRQ_instruction_address_misaligned
-.weak IRQ_instruction_address_misaligned
-
-.global print
-
-.data
-    print_out:
-    .word 0x80000000
+.global IRQH_instruction_address_misaligned
+.weak IRQH_instruction_address_misaligned
 
 .section .irq
-    .word IRQ_reset
-    .word IRQ_ebreak
-    .word IRQ_m_ecall
-    .word IRQ_s_ecall
-    .word IRQ_u_ecall
-    .word IRQ_illegal_instruction
-    .word IRQ_instruction_address_misaligned
-    .word 0
-    .word 0
-    .word 0
-    .word 0
-    .word 0
-    .word 0
-    .word 0
-    .word 0
-    .word 0
+.word IRQH_reset
+.word IRQH_ebreak
+.word IRQH_m_ecall
+.word IRQH_s_ecall
+.word IRQH_u_ecall
+.word IRQH_illegal_instruction
+.word IRQH_instruction_address_misaligned
+.word 0
+.word 0
+.word 0
+.word 0
+.word 0
+.word 0
+.word 0
+.word 0
+.word 0
 
 .text
 
-IRQ_reset:
-IRQ_ebreak:
-IRQ_m_ecall:
-IRQ_s_ecall:
-IRQ_u_ecall:
-IRQ_illegal_instruction:
-IRQ_instruction_address_misaligned:
-    j LOOP
+IRQH_reset:
+    call main
+    j END_OF_CODE
 
-LOOP:
-    j LOOP
+IRQH_ebreak:
+    j END_OF_CODE
 
+IRQH_ecall:
+    j END_OF_CODE
 
-print:
-    // t0 print_out
-    // t1 current byte
+IRQH_illegal_instruction:
+    j END_OF_CODE
 
-    lw t0, print_out
+IRQH_instruction_address_misaligned:
+    j END_OF_CODE
 
-loop:
-    lb t1, (a0)
-    beqz t1, end
-    sb t1, 2(t0)
-    addi a0, a0, 1
-    j loop
-
-end:
-    sb zero, (t0)
-    ret
+END_OF_CODE:
+    j END_OF_CODE
