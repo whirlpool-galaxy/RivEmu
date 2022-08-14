@@ -10,4 +10,3 @@
 //! - Jonathan Schild
 
 pub mod rv32i;
-mod rv_modes;

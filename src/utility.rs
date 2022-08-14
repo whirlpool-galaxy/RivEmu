@@ -174,13 +174,19 @@ mod tests {
     }
 
     #[test]
-    fn test_imm_s() {}
+    fn test_imm_s() {
+        // TEST
+    }
 
     #[test]
-    fn test_imm_b() {}
+    fn test_imm_b() {
+        // TEST
+    }
 
     #[test]
-    fn test_imm_u() {}
+    fn test_imm_u() {
+        // TEST
+    }
 
     #[test]
     fn test_imm_j() {
@@ -188,8 +194,12 @@ mod tests {
     }
 
     #[test]
-    fn test_select_bits_signed() {}
+    fn test_select_bits_signed() {
+        // TEST
+    }
 
     #[test]
-    fn test_select_bits_unsigned() {}
+    fn test_select_bits_unsigned() {
+        // TEST
+    }
 }

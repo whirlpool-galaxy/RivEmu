@@ -11,6 +11,9 @@
 
 use super::*;
 
+// DOC 
+// TEST
+
 pub fn unknown(cpu: &mut dyn RV32IInterface, _instruction: BaseInstruction) {
     let (_reset, _b, _m, _s, _u, i) = cpu.get_std_irns();
     cpu.interrupt(i);

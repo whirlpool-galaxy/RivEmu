@@ -6,3 +6,4 @@
 - `TEMP`: something that exists to temporarily fix compile errors
 - `TEST`: Todo Test
 - `TODO`: something that needs to be done
+- `DOC`: missing documentation
