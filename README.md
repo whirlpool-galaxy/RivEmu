@@ -2,8 +2,8 @@
 
 Easily extendable library to emulate RISC-V.
 
-- [Git](https://gitlab.com/nerds-forge/rivemu)
-- [Issues & Bugs](https://gitlab.com/nerds-forge/rivemu/-/issues/new)
+- [Git](https://github.com/whirlpool-galaxy/RivEmu)
+- [Issues & Bugs](https://github.com/whirlpool-galaxy/RivEmu/issues/new)
 
 ## Features
 List of planed and implemented features. And a list of features that are considered stable
@@ -34,7 +34,7 @@ List of planed and implemented features. And a list of features that are conside
 
 ## Installation
 
-    cargo install --git "https://gitlab.com/nerds-forge/rivemu.git" --branch "latest"
+    cargo install --git "https://github.com/whirlpool-galaxy/RivEmu.git" --branch "latest"
 
 ## Usage
 
