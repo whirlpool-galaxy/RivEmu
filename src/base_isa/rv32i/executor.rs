@@ -11,7 +11,7 @@
 
 use super::*;
 
-// DOC 
+// DOC
 // TEST
 
 pub fn unknown(cpu: &mut dyn RV32IInterface, _instruction: BaseInstruction) {
