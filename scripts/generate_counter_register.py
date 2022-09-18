@@ -1,3 +1,5 @@
+# Copyright (C) 2022 Jonathan Schild - MIT License
+
 start = 0x3A0
 for i in range(0, 15):
     print("0x{:3X};MRW;pmpcfg{}".format(start + i, i))

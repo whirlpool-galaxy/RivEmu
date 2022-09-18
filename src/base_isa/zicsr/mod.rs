@@ -12,8 +12,8 @@
 //! - Jonathan Schild
 
 enum ZiscrVal {
-    Mxlen64(u64),
-    Mxlen32(u32),
+    XLen64(u64),
+    XLen32(u32),
 }
 
 enum AccessMode {
@@ -30,7 +30,7 @@ enum AccessMode {
 
 trait ZicsrRegister {
     fn get_access_mode() -> AccessMode;
-    fn get_zicsr() -> ZiscrVal;
+    fn get_zicsr(value: ZiscrVal) -> ZiscrVal;
     fn set_zicsr(value: ZiscrVal) -> bool;
 }
 
@@ -205,9 +205,9 @@ mod machine {
         fn get_access_mode() -> AccessMode {
             AccessMode::MRO
         }
-        fn get_zicsr() -> ZiscrVal {
+        fn get_zicsr(value: ZiscrVal) -> ZiscrVal {
             // TODO
-            ZiscrVal::Mxlen32(0)
+            ZiscrVal::XLen32(0)
         }
 
         fn set_zicsr(value: ZiscrVal) -> bool {
@@ -224,9 +224,9 @@ mod machine {
         fn get_access_mode() -> AccessMode {
             AccessMode::MRO
         }
-        fn get_zicsr() -> ZiscrVal {
+        fn get_zicsr(value: ZiscrVal) -> ZiscrVal {
             // TODO
-            ZiscrVal::Mxlen32(0)
+            ZiscrVal::XLen32(0)
         }
 
         fn set_zicsr(value: ZiscrVal) -> bool {
@@ -243,9 +243,9 @@ mod machine {
         fn get_access_mode() -> AccessMode {
             AccessMode::MRO
         }
-        fn get_zicsr() -> ZiscrVal {
+        fn get_zicsr(value: ZiscrVal) -> ZiscrVal {
             // TODO
-            ZiscrVal::Mxlen32(0)
+            ZiscrVal::XLen32(0)
         }
 
         fn set_zicsr(value: ZiscrVal) -> bool {
@@ -262,9 +262,9 @@ mod machine {
         fn get_access_mode() -> AccessMode {
             AccessMode::MRO
         }
-        fn get_zicsr() -> ZiscrVal {
+        fn get_zicsr(value: ZiscrVal) -> ZiscrVal {
             // TODO
-            ZiscrVal::Mxlen32(0)
+            ZiscrVal::XLen32(0)
         }
 
         fn set_zicsr(value: ZiscrVal) -> bool {
@@ -281,9 +281,9 @@ mod machine {
         fn get_access_mode() -> AccessMode {
             AccessMode::MRO
         }
-        fn get_zicsr() -> ZiscrVal {
+        fn get_zicsr(value: ZiscrVal) -> ZiscrVal {
             // TODO
-            ZiscrVal::Mxlen32(0)
+            ZiscrVal::XLen32(0)
         }
 
         fn set_zicsr(value: ZiscrVal) -> bool {
@@ -300,9 +300,9 @@ mod machine {
         fn get_access_mode() -> AccessMode {
             AccessMode::MRW
         }
-        fn get_zicsr() -> ZiscrVal {
+        fn get_zicsr(value: ZiscrVal) -> ZiscrVal {
             // TODO
-            ZiscrVal::Mxlen32(0)
+            ZiscrVal::XLen32(0)
         }
 
         fn set_zicsr(value: ZiscrVal) -> bool {
@@ -319,9 +319,9 @@ mod machine {
         fn get_access_mode() -> AccessMode {
             AccessMode::MRW
         }
-        fn get_zicsr() -> ZiscrVal {
+        fn get_zicsr(value: ZiscrVal) -> ZiscrVal {
             // TODO
-            ZiscrVal::Mxlen32(0)
+            ZiscrVal::XLen32(0)
         }
 
         fn set_zicsr(value: ZiscrVal) -> bool {
@@ -338,9 +338,9 @@ mod machine {
         fn get_access_mode() -> AccessMode {
             AccessMode::MRW
         }
-        fn get_zicsr() -> ZiscrVal {
+        fn get_zicsr(value: ZiscrVal) -> ZiscrVal {
             // TODO
-            ZiscrVal::Mxlen32(0)
+            ZiscrVal::XLen32(0)
         }
 
         fn set_zicsr(value: ZiscrVal) -> bool {
@@ -357,9 +357,9 @@ mod machine {
         fn get_access_mode() -> AccessMode {
             AccessMode::MRW
         }
-        fn get_zicsr() -> ZiscrVal {
+        fn get_zicsr(value: ZiscrVal) -> ZiscrVal {
             // TODO
-            ZiscrVal::Mxlen32(0)
+            ZiscrVal::XLen32(0)
         }
 
         fn set_zicsr(value: ZiscrVal) -> bool {
@@ -376,9 +376,9 @@ mod machine {
         fn get_access_mode() -> AccessMode {
             AccessMode::MRW
         }
-        fn get_zicsr() -> ZiscrVal {
+        fn get_zicsr(value: ZiscrVal) -> ZiscrVal {
             // TODO
-            ZiscrVal::Mxlen32(0)
+            ZiscrVal::XLen32(0)
         }
 
         fn set_zicsr(value: ZiscrVal) -> bool {
@@ -395,9 +395,9 @@ mod machine {
         fn get_access_mode() -> AccessMode {
             AccessMode::MRW
         }
-        fn get_zicsr() -> ZiscrVal {
+        fn get_zicsr(value: ZiscrVal) -> ZiscrVal {
             // TODO
-            ZiscrVal::Mxlen32(0)
+            ZiscrVal::XLen32(0)
         }
 
         fn set_zicsr(value: ZiscrVal) -> bool {
@@ -414,9 +414,9 @@ mod machine {
         fn get_access_mode() -> AccessMode {
             AccessMode::MRW
         }
-        fn get_zicsr() -> ZiscrVal {
+        fn get_zicsr(value: ZiscrVal) -> ZiscrVal {
             // TODO
-            ZiscrVal::Mxlen32(0)
+            ZiscrVal::XLen32(0)
         }
 
         fn set_zicsr(value: ZiscrVal) -> bool {
@@ -433,9 +433,9 @@ mod machine {
         fn get_access_mode() -> AccessMode {
             AccessMode::MRW
         }
-        fn get_zicsr() -> ZiscrVal {
+        fn get_zicsr(value: ZiscrVal) -> ZiscrVal {
             // TODO
-            ZiscrVal::Mxlen32(0)
+            ZiscrVal::XLen32(0)
         }
 
         fn set_zicsr(value: ZiscrVal) -> bool {
@@ -452,9 +452,9 @@ mod machine {
         fn get_access_mode() -> AccessMode {
             AccessMode::MRW
         }
-        fn get_zicsr() -> ZiscrVal {
+        fn get_zicsr(value: ZiscrVal) -> ZiscrVal {
             // TODO
-            ZiscrVal::Mxlen32(0)
+            ZiscrVal::XLen32(0)
         }
 
         fn set_zicsr(value: ZiscrVal) -> bool {
@@ -471,9 +471,9 @@ mod machine {
         fn get_access_mode() -> AccessMode {
             AccessMode::MRW
         }
-        fn get_zicsr() -> ZiscrVal {
+        fn get_zicsr(value: ZiscrVal) -> ZiscrVal {
             // TODO
-            ZiscrVal::Mxlen32(0)
+            ZiscrVal::XLen32(0)
         }
 
         fn set_zicsr(value: ZiscrVal) -> bool {
@@ -490,9 +490,9 @@ mod machine {
         fn get_access_mode() -> AccessMode {
             AccessMode::MRW
         }
-        fn get_zicsr() -> ZiscrVal {
+        fn get_zicsr(value: ZiscrVal) -> ZiscrVal {
             // TODO
-            ZiscrVal::Mxlen32(0)
+            ZiscrVal::XLen32(0)
         }
 
         fn set_zicsr(value: ZiscrVal) -> bool {
@@ -509,9 +509,9 @@ mod machine {
         fn get_access_mode() -> AccessMode {
             AccessMode::MRW
         }
-        fn get_zicsr() -> ZiscrVal {
+        fn get_zicsr(value: ZiscrVal) -> ZiscrVal {
             // TODO
-            ZiscrVal::Mxlen32(0)
+            ZiscrVal::XLen32(0)
         }
 
         fn set_zicsr(value: ZiscrVal) -> bool {
@@ -528,9 +528,9 @@ mod machine {
         fn get_access_mode() -> AccessMode {
             AccessMode::MRW
         }
-        fn get_zicsr() -> ZiscrVal {
+        fn get_zicsr(value: ZiscrVal) -> ZiscrVal {
             // TODO
-            ZiscrVal::Mxlen32(0)
+            ZiscrVal::XLen32(0)
         }
 
         fn set_zicsr(value: ZiscrVal) -> bool {
@@ -547,9 +547,9 @@ mod machine {
         fn get_access_mode() -> AccessMode {
             AccessMode::MRW
         }
-        fn get_zicsr() -> ZiscrVal {
+        fn get_zicsr(value: ZiscrVal) -> ZiscrVal {
             // TODO
-            ZiscrVal::Mxlen32(0)
+            ZiscrVal::XLen32(0)
         }
 
         fn set_zicsr(value: ZiscrVal) -> bool {
@@ -566,9 +566,9 @@ mod machine {
         fn get_access_mode() -> AccessMode {
             AccessMode::MRW
         }
-        fn get_zicsr() -> ZiscrVal {
+        fn get_zicsr(value: ZiscrVal) -> ZiscrVal {
             // TODO
-            ZiscrVal::Mxlen32(0)
+            ZiscrVal::XLen32(0)
         }
 
         fn set_zicsr(value: ZiscrVal) -> bool {
@@ -585,9 +585,9 @@ mod machine {
         fn get_access_mode() -> AccessMode {
             AccessMode::MRW
         }
-        fn get_zicsr() -> ZiscrVal {
+        fn get_zicsr(value: ZiscrVal) -> ZiscrVal {
             // TODO
-            ZiscrVal::Mxlen32(0)
+            ZiscrVal::XLen32(0)
         }
 
         fn set_zicsr(value: ZiscrVal) -> bool {
@@ -604,9 +604,9 @@ mod machine {
         fn get_access_mode() -> AccessMode {
             AccessMode::MRW
         }
-        fn get_zicsr() -> ZiscrVal {
+        fn get_zicsr(value: ZiscrVal) -> ZiscrVal {
             // TODO
-            ZiscrVal::Mxlen32(0)
+            ZiscrVal::XLen32(0)
         }
 
         fn set_zicsr(value: ZiscrVal) -> bool {
@@ -623,9 +623,9 @@ mod machine {
         fn get_access_mode() -> AccessMode {
             AccessMode::MRW
         }
-        fn get_zicsr() -> ZiscrVal {
+        fn get_zicsr(value: ZiscrVal) -> ZiscrVal {
             // TODO
-            ZiscrVal::Mxlen32(0)
+            ZiscrVal::XLen32(0)
         }
 
         fn set_zicsr(value: ZiscrVal) -> bool {
@@ -642,9 +642,9 @@ mod machine {
         fn get_access_mode() -> AccessMode {
             AccessMode::MRW
         }
-        fn get_zicsr() -> ZiscrVal {
+        fn get_zicsr(value: ZiscrVal) -> ZiscrVal {
             // TODO
-            ZiscrVal::Mxlen32(0)
+            ZiscrVal::XLen32(0)
         }
 
         fn set_zicsr(value: ZiscrVal) -> bool {
@@ -661,9 +661,9 @@ mod machine {
         fn get_access_mode() -> AccessMode {
             AccessMode::MRW
         }
-        fn get_zicsr() -> ZiscrVal {
+        fn get_zicsr(value: ZiscrVal) -> ZiscrVal {
             // TODO
-            ZiscrVal::Mxlen32(0)
+            ZiscrVal::XLen32(0)
         }
 
         fn set_zicsr(value: ZiscrVal) -> bool {
@@ -680,9 +680,9 @@ mod machine {
         fn get_access_mode() -> AccessMode {
             AccessMode::MRW
         }
-        fn get_zicsr() -> ZiscrVal {
+        fn get_zicsr(value: ZiscrVal) -> ZiscrVal {
             // TODO
-            ZiscrVal::Mxlen32(0)
+            ZiscrVal::XLen32(0)
         }
 
         fn set_zicsr(value: ZiscrVal) -> bool {
@@ -699,9 +699,9 @@ mod machine {
         fn get_access_mode() -> AccessMode {
             AccessMode::MRW
         }
-        fn get_zicsr() -> ZiscrVal {
+        fn get_zicsr(value: ZiscrVal) -> ZiscrVal {
             // TODO
-            ZiscrVal::Mxlen32(0)
+            ZiscrVal::XLen32(0)
         }
 
         fn set_zicsr(value: ZiscrVal) -> bool {
@@ -718,9 +718,9 @@ mod machine {
         fn get_access_mode() -> AccessMode {
             AccessMode::MRW
         }
-        fn get_zicsr() -> ZiscrVal {
+        fn get_zicsr(value: ZiscrVal) -> ZiscrVal {
             // TODO
-            ZiscrVal::Mxlen32(0)
+            ZiscrVal::XLen32(0)
         }
 
         fn set_zicsr(value: ZiscrVal) -> bool {
@@ -737,9 +737,9 @@ mod machine {
         fn get_access_mode() -> AccessMode {
             AccessMode::MRW
         }
-        fn get_zicsr() -> ZiscrVal {
+        fn get_zicsr(value: ZiscrVal) -> ZiscrVal {
             // TODO
-            ZiscrVal::Mxlen32(0)
+            ZiscrVal::XLen32(0)
         }
 
         fn set_zicsr(value: ZiscrVal) -> bool {
@@ -756,9 +756,9 @@ mod machine {
         fn get_access_mode() -> AccessMode {
             AccessMode::MRW
         }
-        fn get_zicsr() -> ZiscrVal {
+        fn get_zicsr(value: ZiscrVal) -> ZiscrVal {
             // TODO
-            ZiscrVal::Mxlen32(0)
+            ZiscrVal::XLen32(0)
         }
 
         fn set_zicsr(value: ZiscrVal) -> bool {
@@ -775,9 +775,9 @@ mod machine {
         fn get_access_mode() -> AccessMode {
             AccessMode::MRW
         }
-        fn get_zicsr() -> ZiscrVal {
+        fn get_zicsr(value: ZiscrVal) -> ZiscrVal {
             // TODO
-            ZiscrVal::Mxlen32(0)
+            ZiscrVal::XLen32(0)
         }
 
         fn set_zicsr(value: ZiscrVal) -> bool {
@@ -794,9 +794,9 @@ mod machine {
         fn get_access_mode() -> AccessMode {
             AccessMode::MRW
         }
-        fn get_zicsr() -> ZiscrVal {
+        fn get_zicsr(value: ZiscrVal) -> ZiscrVal {
             // TODO
-            ZiscrVal::Mxlen32(0)
+            ZiscrVal::XLen32(0)
         }
 
         fn set_zicsr(value: ZiscrVal) -> bool {
@@ -813,9 +813,9 @@ mod machine {
         fn get_access_mode() -> AccessMode {
             AccessMode::MRW
         }
-        fn get_zicsr() -> ZiscrVal {
+        fn get_zicsr(value: ZiscrVal) -> ZiscrVal {
             // TODO
-            ZiscrVal::Mxlen32(0)
+            ZiscrVal::XLen32(0)
         }
 
         fn set_zicsr(value: ZiscrVal) -> bool {
@@ -832,9 +832,9 @@ mod machine {
         fn get_access_mode() -> AccessMode {
             AccessMode::MRW
         }
-        fn get_zicsr() -> ZiscrVal {
+        fn get_zicsr(value: ZiscrVal) -> ZiscrVal {
             // TODO
-            ZiscrVal::Mxlen32(0)
+            ZiscrVal::XLen32(0)
         }
 
         fn set_zicsr(value: ZiscrVal) -> bool {
@@ -851,9 +851,9 @@ mod machine {
         fn get_access_mode() -> AccessMode {
             AccessMode::MRW
         }
-        fn get_zicsr() -> ZiscrVal {
+        fn get_zicsr(value: ZiscrVal) -> ZiscrVal {
             // TODO
-            ZiscrVal::Mxlen32(0)
+            ZiscrVal::XLen32(0)
         }
 
         fn set_zicsr(value: ZiscrVal) -> bool {
@@ -870,9 +870,9 @@ mod machine {
         fn get_access_mode() -> AccessMode {
             AccessMode::MRW
         }
-        fn get_zicsr() -> ZiscrVal {
+        fn get_zicsr(value: ZiscrVal) -> ZiscrVal {
             // TODO
-            ZiscrVal::Mxlen32(0)
+            ZiscrVal::XLen32(0)
         }
 
         fn set_zicsr(value: ZiscrVal) -> bool {
@@ -889,9 +889,9 @@ mod machine {
         fn get_access_mode() -> AccessMode {
             AccessMode::MRW
         }
-        fn get_zicsr() -> ZiscrVal {
+        fn get_zicsr(value: ZiscrVal) -> ZiscrVal {
             // TODO
-            ZiscrVal::Mxlen32(0)
+            ZiscrVal::XLen32(0)
         }
 
         fn set_zicsr(value: ZiscrVal) -> bool {
@@ -908,9 +908,9 @@ mod machine {
         fn get_access_mode() -> AccessMode {
             AccessMode::DRW
         }
-        fn get_zicsr() -> ZiscrVal {
+        fn get_zicsr(value: ZiscrVal) -> ZiscrVal {
             // TODO
-            ZiscrVal::Mxlen32(0)
+            ZiscrVal::XLen32(0)
         }
 
         fn set_zicsr(value: ZiscrVal) -> bool {
@@ -927,9 +927,9 @@ mod machine {
         fn get_access_mode() -> AccessMode {
             AccessMode::DRW
         }
-        fn get_zicsr() -> ZiscrVal {
+        fn get_zicsr(value: ZiscrVal) -> ZiscrVal {
             // TODO
-            ZiscrVal::Mxlen32(0)
+            ZiscrVal::XLen32(0)
         }
 
         fn set_zicsr(value: ZiscrVal) -> bool {
@@ -946,9 +946,9 @@ mod machine {
         fn get_access_mode() -> AccessMode {
             AccessMode::DRW
         }
-        fn get_zicsr() -> ZiscrVal {
+        fn get_zicsr(value: ZiscrVal) -> ZiscrVal {
             // TODO
-            ZiscrVal::Mxlen32(0)
+            ZiscrVal::XLen32(0)
         }
 
         fn set_zicsr(value: ZiscrVal) -> bool {

@@ -1,3 +1,5 @@
+# Copyright (C) 2022 Jonathan Schild - MIT License
+
 import csv
 
 rows = []
@@ -24,9 +26,9 @@ for row in rows:
     print("fn get_access_mode() -> AccessMode {")
     print("AccessMode::{}".format(row[1]))
     print("}")
-    print("fn get_zicsr() -> ZiscrVal {")
+    print("fn get_zicsr(value: ZiscrVal) -> ZiscrVal {")
     print("// TODO")
-    print("ZiscrVal::Mxlen32(0)")
+    print("ZiscrVal::XLen32(0)")
     print("}")
     print()
     print("fn set_zicsr(value: ZiscrVal) -> bool {")
