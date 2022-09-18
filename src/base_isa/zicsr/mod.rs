@@ -36,6 +36,7 @@ trait ZicsrRegister {
 
 mod machine {
     use super::{AccessMode, ZicsrRegister, ZiscrVal};
+
     struct Mvendorid {
         // TODO
     }
