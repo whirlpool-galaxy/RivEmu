@@ -13,6 +13,11 @@ for i in range(3, 31):
     print("0x{:3X};MRW;mhpmcounter{}".format(start + i -3, i))
 print("=============================")
 
+start = 0xB83
+for i in range(3, 31):
+    print("0x{:3X};MRW;mhpmcounter{}h".format(start + i -3, i))
+print("=============================")
+
 start = 0x323
 for i in range(3, 31):
     print("0x{:3X};MRW;mhpmevent{}".format(start + i -3, i))
